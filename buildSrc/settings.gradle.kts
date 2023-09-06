@@ -1,13 +1,12 @@
 @file:Suppress("UnstableApiUsage")
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+import java.util.Properties
 
 pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
         google()
-        mavenLocal()
     }
 }
 
@@ -17,17 +16,17 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         gradlePluginPortal()
-        mavenLocal()
     }
     versionCatalogs {
-        val catalogsVersion = providers.gradleProperty("catalogs.version").get()
+        val catalogsVersion = getRootProperties()["catalogs.version"].toString()
         create("common") {
             from("io.github.lyxnx.gradle:versions-common:$catalogsVersion")
         }
     }
 }
 
-rootProject.name = "kradle"
-
-include(":plugin-common")
-include(":plugin-kotlin")
+fun getRootProperties(): Properties {
+    return file("../gradle.properties").bufferedReader().use {
+        Properties().apply { load(it) }
+    }
+}
