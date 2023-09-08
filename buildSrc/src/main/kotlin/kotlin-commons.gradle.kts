@@ -1,15 +1,16 @@
+import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `kotlin-dsl`
+    id("kotlin")
 }
 
-dependencies {
-    api(common.kotlin.gradleplugin)
-    api(common.vanniktech.publish.plugin)
+kotlin {
+    explicitApi = ExplicitApiMode.Strict
 }
 
+// TODO use kotlin config plugin once 1st version is published to configure this sort of stuff
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11

@@ -7,7 +7,6 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         google()
-        mavenLocal()
     }
 }
 
@@ -17,7 +16,6 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         gradlePluginPortal()
-        mavenLocal()
     }
     versionCatalogs {
         val catalogsVersion = providers.gradleProperty("catalogs.version").get()
