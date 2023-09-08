@@ -7,6 +7,8 @@ dependencies {
     compileOnlyApi(common.kotlin.gradleplugin)
 }
 
+description = "Plugins to reduce boilerplate in Kotlin modules"
+
 gradlePlugin {
     plugins {
         register("kotlin-config") {
