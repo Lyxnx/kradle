@@ -8,7 +8,7 @@ plugins {
 
 group = "io.github.lyxnx.gradle"
 version = getRootProperties()["kradle.version"].toString()
-description = "Various gradle plugins for regular JVM and Android"
+description = "Various Kotlin gradle plugins for regular JVM and Android"
 
 mavenPublishing {
     coordinates(project.group.toString(), project.name, project.version.toString())
