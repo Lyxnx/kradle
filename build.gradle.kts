@@ -1,5 +1,10 @@
 plugins {
     `kotlin-dsl` apply false
+    id(libs.plugins.kradle.kotlin.config.get().pluginId)
+}
+
+kradle {
+    jvmTarget.set(JavaVersion.VERSION_11)
 }
 
 subprojects {

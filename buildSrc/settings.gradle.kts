@@ -22,6 +22,10 @@ dependencyResolutionManagement {
         create("common") {
             from("io.github.lyxnx.gradle:versions-common:$catalogsVersion")
         }
+
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
 }
 
