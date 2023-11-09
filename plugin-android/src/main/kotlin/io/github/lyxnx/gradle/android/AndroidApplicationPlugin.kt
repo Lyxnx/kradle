@@ -27,6 +27,13 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     }
 
     private fun Project.configureApp() = android<ApplicationExtension> {
+        defaultConfig {
+            proguardFiles(
+                "proguard-rules.pro",
+                getDefaultProguardFile("proguard-android-optimize.txt")
+            )
+        }
+
         buildTypes {
             debug {
                 applicationIdSuffix = ".$BUILD_TYPE_DEBUG"

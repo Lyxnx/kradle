@@ -12,6 +12,10 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
         applyBasePlugin(ANDROID_LIBRARY_PLUGIN)
 
         android<LibraryExtension> {
+            defaultConfig {
+                consumerProguardFiles("consumer-rules.pro")
+            }
+
             buildFeatures {
                 buildConfig = false
                 resValues = false
