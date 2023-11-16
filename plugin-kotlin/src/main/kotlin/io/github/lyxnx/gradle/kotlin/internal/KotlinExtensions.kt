@@ -10,6 +10,10 @@ internal fun Project.java(configure: JavaPluginExtension.() -> Unit) {
     extensions.configure("java", configure)
 }
 
+internal fun Project.kotlin(configure: KotlinProjectExtension.() -> Unit) {
+    extensions.configure("kotlin", configure)
+}
+
 internal val KradlePlugin.kotlin: KotlinProjectExtension
     get() = project.kotlin
 

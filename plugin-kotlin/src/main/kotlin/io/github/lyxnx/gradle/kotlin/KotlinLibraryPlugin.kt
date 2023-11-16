@@ -2,7 +2,6 @@ package io.github.lyxnx.gradle.kotlin
 
 import io.github.lyxnx.gradle.KradlePlugin
 import io.github.lyxnx.gradle.kotlin.dsl.configureKotlin
-import io.github.lyxnx.gradle.kotlin.internal.java
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
@@ -16,13 +15,6 @@ public class KotlinLibraryPlugin : KradlePlugin() {
 
         configureKotlin(configPlugin.jvmTarget)
         configureKotlinTest(configPlugin.testOptions)
-
-        afterEvaluate {
-            java {
-                targetCompatibility = configPlugin.jvmTarget.get()
-                sourceCompatibility = configPlugin.jvmTarget.get()
-            }
-        }
     }
 
     private fun Project.configureKotlinTest(options: KotlinTestOptions) {

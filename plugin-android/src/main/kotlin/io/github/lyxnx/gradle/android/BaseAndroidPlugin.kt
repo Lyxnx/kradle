@@ -9,9 +9,7 @@ import io.github.lyxnx.gradle.android.internal.androidComponents
 import io.github.lyxnx.gradle.android.internal.test
 import io.github.lyxnx.gradle.kotlin.dsl.configureKotlin
 import io.github.lyxnx.gradle.kotlin.setTestOptions
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.getPlugin
@@ -45,15 +43,14 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
             )
         }
 
+        // configureKotlin uses a jvm toolchain, which AGP 8.1.0-alpha09+ will grab the JDK version from and setup the
+        // sourceCompatibility + targetCompatibility values to match
         configureKotlin(configPlugin.jvmTarget)
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->
                 configPlugin.run {
-                    extension.applyAndroidOptions(
-                        options = androidOptions,
-                        javaVersion = jvmTarget
-                    )
+                    extension.applyAndroidOptions(androidOptions)
                     filterTestTaskDependencies(androidOptions)
                 }
             }
@@ -68,19 +65,11 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         }
     }
 
-    private fun AndroidCommonExtension.applyAndroidOptions(
-        options: AndroidOptions,
-        javaVersion: Provider<JavaVersion>
-    ) {
+    private fun AndroidCommonExtension.applyAndroidOptions(options: AndroidOptions) {
         setCompileSdkVersion(options.compileSdk.get())
 
         defaultConfig {
             minSdk = options.minSdk.get()
-        }
-
-        compileOptions {
-            sourceCompatibility = javaVersion.get()
-            targetCompatibility = javaVersion.get()
         }
 
         testOptions {

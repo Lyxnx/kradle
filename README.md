@@ -35,7 +35,9 @@ Then simply apply the respective plugin depending on whether the module is a lib
 Provides common configuration for Kotlin modules.
 
 - Applies the `kotlin` plugin
-- Configures the JVM target for the `org.jetbrains.kotlin.gradle.tasks.KotlinCompile` task
+- Configures the JVM toolchain
+    - If using Android, AGP will automatically configure the `sourceCompatibility` and `targetCompatibility` based on
+      this value
 - Configures test options (JUnit 4/Jupiter (JUnit 5))
 
 ## Android
