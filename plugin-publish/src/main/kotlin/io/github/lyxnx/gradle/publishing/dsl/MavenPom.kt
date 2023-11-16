@@ -12,21 +12,25 @@ import org.gradle.api.publish.maven.MavenPomDeveloperSpec
  * Adds a GitHub based developer to this POM
  *
  * @param username GitHub username of developer
- * @param name name of the developer, whether their real name, or online pseudonym
- * @param email email of the developer - typically the same email used for GitHub commits
+ * @param name name of the developer, whether their real name, or online pseudonym. By default this will be the same as
+ * [username]
+ * @param email email of the developer - typically the same email used for GitHub commits. Empty by default and will not
+ * be included in the final POM
  * @param action any additional actions to configure this developer
  */
 public fun MavenPomDeveloperSpec.githubDeveloper(
     username: String,
-    name: String,
-    email: String,
+    name: String = username,
+    email: String = "",
     action: MavenPomDeveloper.() -> Unit = {},
 ) {
     developer {
         id.set(username)
         this.name.set(name)
         url.set("https://$GITHUB/$username")
-        this.email.set(email)
+        if (email.isNotBlank()) {
+            this.email.set(email)
+        }
         action()
     }
 }
@@ -79,9 +83,8 @@ private const val GITHUB = "github.com"
  *
  * This will set the URL, issue management, and SCM information to the corresponding GitHub information for [projectName]
  *
- * For example, if the host of the repository is testcompany (
- *
- * @param projectName
+ * For example, if the GitHub URL of a project is github.com/testcompany/testproject, then the [projectName] would be
+ * `testcompany/testproject`
  */
 public fun MavenPom.githubProject(projectName: String) {
     val githubUrl = "https://$GITHUB/$projectName"
