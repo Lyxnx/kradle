@@ -3,16 +3,29 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [1.0.7](#107)
+  - [Kotlin](#kotlin)
+  - [Publishing](#publishing)
 - [1.0.6](#106)
   - [Android](#android)
 - [1.0.5](#105)
-  - [Publishing](#publishing)
+  - [Publishing](#publishing-1)
 - [1.0.4](#104)
 - [1.0.3](#103)
 - [1.0.2](#102)
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.7
+
+### Kotlin
+
+- Configure using JVM toolchain instead of setting compatibilities manually
+
+### Publishing
+
+- Only require username for githubDeveloper function
 
 ## 1.0.6
 
