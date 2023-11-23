@@ -3,8 +3,10 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [1.0.7](#107)
+- [1.0.8](#108)
   - [Kotlin](#kotlin)
+- [1.0.7](#107)
+  - [Kotlin](#kotlin-1)
   - [Publishing](#publishing)
 - [1.0.6](#106)
   - [Android](#android)
@@ -16,6 +18,12 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.8
+
+### Kotlin
+
+- Fix erroneous warning when configuring JVM toolchain as the else block was being evaluated regardless
 
 ## 1.0.7
 
