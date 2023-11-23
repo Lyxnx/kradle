@@ -1,6 +1,7 @@
 package io.github.lyxnx.gradle.kotlin.dsl
 
 import io.github.lyxnx.gradle.KradlePlugin
+import io.github.lyxnx.gradle.dsl.getOrElse
 import io.github.lyxnx.gradle.kotlin.internal.kotlin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -26,11 +27,13 @@ public inline fun Project.kotlinCompile(crossinline configure: KotlinCompile.() 
  */
 public fun KradlePlugin.configureKotlin(javaVersion: Provider<JavaVersion>) {
     project.kotlin {
-        jvmToolchain(javaVersion.getOrElse(
-            JavaVersion.current().also {
-                logger.warn("Could not determine specified JVM target - defaulting to current JDK version ($it)")
-            }
-        ).majorVersion.toInt())
+        jvmToolchain(
+            javaVersion.getOrElse {
+                JavaVersion.current().also {
+                    logger.warn("Could not determine specified JVM target - defaulting to current JDK version ($it)")
+                }
+            }.majorVersion.toInt()
+        )
     }
 
     project.kotlinCompile {
