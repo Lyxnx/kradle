@@ -2,10 +2,13 @@ package io.github.lyxnx.gradle.kotlin.dsl
 
 import io.github.lyxnx.gradle.KradlePlugin
 import io.github.lyxnx.gradle.dsl.getOrElse
+import io.github.lyxnx.gradle.kotlin.KotlinTestOptions
+import io.github.lyxnx.gradle.kotlin.KotlinTestOptionsImpl
 import io.github.lyxnx.gradle.kotlin.internal.kotlin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -40,5 +43,22 @@ public fun KradlePlugin.configureKotlin(javaVersion: Provider<JavaVersion>) {
         compilerOptions {
             freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
         }
+    }
+}
+
+/**
+ * Configures kotlin test options for the project
+ */
+public fun Project.configureKotlinTest(options: KotlinTestOptions) {
+    tasks.withType<Test>().configureEach { setTestOptions(options) }
+}
+
+public fun Test.setTestOptions(options: KotlinTestOptions) {
+    val configure = (options as KotlinTestOptionsImpl).configuration.get()
+    if (options.useJunitPlatform.get()) {
+        useJUnitPlatform(configure)
+        testLogging { events("passed", "skipped", "failed") }
+    } else {
+        useJUnit(configure)
     }
 }

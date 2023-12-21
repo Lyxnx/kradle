@@ -8,7 +8,7 @@ import io.github.lyxnx.gradle.android.internal.android
 import io.github.lyxnx.gradle.android.internal.androidComponents
 import io.github.lyxnx.gradle.android.internal.test
 import io.github.lyxnx.gradle.kotlin.dsl.configureKotlin
-import io.github.lyxnx.gradle.kotlin.setTestOptions
+import io.github.lyxnx.gradle.kotlin.dsl.setTestOptions
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
