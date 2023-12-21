@@ -3,10 +3,12 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [1.0.8](#108)
+- [1.0.9](#109)
   - [Kotlin](#kotlin)
-- [1.0.7](#107)
+- [1.0.8](#108)
   - [Kotlin](#kotlin-1)
+- [1.0.7](#107)
+  - [Kotlin](#kotlin-2)
   - [Publishing](#publishing)
 - [1.0.6](#106)
   - [Android](#android)
@@ -18,6 +20,12 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.9
+
+### Kotlin
+
+- Fix issue with flat projects jvmTarget value being read too early
 
 ## 1.0.8
 
