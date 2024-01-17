@@ -92,7 +92,7 @@ and [MavenPom.kt](plugin-publish/src/main/kotlin/io/github/lyxnx/gradle/publishi
 
 [license]:LICENCE
 
-[license img]:https://img.shields.io/badge/license-MIT-green.svg?style=flat-square
+[license img]:https://img.shields.io/badge/License-Apache_2.0-green.svg?style=flat-square
 
 [Maven Central]:https://maven-badges.herokuapp.com/maven-central/io.github.lyxnx.gradle/plugin-common
 
