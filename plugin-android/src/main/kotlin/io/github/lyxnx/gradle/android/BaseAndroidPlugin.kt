@@ -79,6 +79,8 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
 
         defaultConfig {
             minSdk = options.minSdk.get()
+
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
         testOptions {
