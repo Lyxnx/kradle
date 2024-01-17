@@ -9,6 +9,8 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -37,6 +39,10 @@ public fun KradlePlugin.configureKotlin(javaVersion: Provider<JavaVersion>) {
                 }
             }.majorVersion.toInt()
         )
+    }
+
+    project.dependencies {
+        add("testImplementation", kotlin("test"))
     }
 
     project.kotlinCompile {

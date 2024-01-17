@@ -12,7 +12,9 @@ import io.github.lyxnx.gradle.kotlin.dsl.setTestOptions
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getPlugin
+import org.gradle.kotlin.dsl.kotlin
 
 public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() {
 
@@ -46,6 +48,7 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         // configureKotlin uses a jvm toolchain, which AGP 8.1.0-alpha09+ will grab the JDK version from and setup the
         // sourceCompatibility + targetCompatibility values to match
         configureKotlin(configPlugin.jvmTarget)
+        configureKotlinAndroid()
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->
@@ -54,6 +57,12 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
                     filterTestTaskDependencies(androidOptions)
                 }
             }
+        }
+    }
+
+    private fun Project.configureKotlinAndroid() {
+        dependencies {
+            add("androidTestImplementation", kotlin("test"))
         }
     }
 
