@@ -3,15 +3,18 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [1.0.9](#109)
+- [1.0.10](#1010)
+  - [Android](#android)
   - [Kotlin](#kotlin)
-- [1.0.8](#108)
+- [1.0.9](#109)
   - [Kotlin](#kotlin-1)
-- [1.0.7](#107)
+- [1.0.8](#108)
   - [Kotlin](#kotlin-2)
+- [1.0.7](#107)
+  - [Kotlin](#kotlin-3)
   - [Publishing](#publishing)
 - [1.0.6](#106)
-  - [Android](#android)
+  - [Android](#android-1)
 - [1.0.5](#105)
   - [Publishing](#publishing-1)
 - [1.0.4](#104)
@@ -20,6 +23,21 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.10
+
+- Update JDKs used to 17
+- Relicensed as Apache 2.0
+- Updated to gradle 8.5
+
+### Android
+
+- Add `kotlin("test")` library to `androidTestImplementation` configuration
+- Added default AndroidJUnitRunner test runner to both application and library projects
+
+### Kotlin
+
+- Add `kotlin("test")` library to `testImplementation` configuration
 
 ## 1.0.9
 
