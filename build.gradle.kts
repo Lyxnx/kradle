@@ -4,7 +4,7 @@ plugins {
 }
 
 kradle {
-    jvmTarget.set(JavaVersion.VERSION_11)
+    jvmTarget.set(JavaVersion.VERSION_17)
 }
 
 subprojects {
