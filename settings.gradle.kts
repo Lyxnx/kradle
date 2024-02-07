@@ -30,4 +30,3 @@ rootProject.name = "kradle"
 include(":plugin-common")
 include(":plugin-kotlin")
 include(":plugin-android")
-include(":plugin-publish")

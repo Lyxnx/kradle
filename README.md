@@ -61,35 +61,6 @@ Both will:
 - Apply the AGP `com.android.application` plugin
 - Configures the `debug` and `release` build types
 
-## Publishing
-
-This plugin only applies the `com.vanniktech.maven.publish` plugin and doesn't provide any other configuration.
-
-It does, however, provide some useful functions for configuring the publishing plugin:
-
-For example, to configure the POM as an open source GitHub project:
-
-```kotlin
-mavenPublishing {
-    pom {
-        githubProject("Lyxnx/kradle")
-        developers {
-            githubDeveloper(username = "Lyxnx", name = "Lyxnx", email = "test@test.com")
-        }
-        licenses {
-            mit()
-        }
-    }
-}
-```
-
-- `githubProject()` will configure the URL, issue management and scm fields
-- `githubDeveloper()` will add a developer using their GitHub profile
-- `mit()` will set the licence to the MIT licence
-
-See [Licenses.kt](plugin-publish/src/main/kotlin/io/github/lyxnx/gradle/publishing/dsl/Licenses.kt)
-and [MavenPom.kt](plugin-publish/src/main/kotlin/io/github/lyxnx/gradle/publishing/dsl/MavenPom.kt) for more functions
-
 [license]:LICENCE
 
 [license img]:https://img.shields.io/badge/License-Apache_2.0-green.svg?style=flat-square

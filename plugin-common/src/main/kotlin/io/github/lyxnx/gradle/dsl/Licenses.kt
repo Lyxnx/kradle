@@ -1,4 +1,4 @@
-package io.github.lyxnx.gradle.publishing.dsl
+package io.github.lyxnx.gradle.dsl
 
 import org.gradle.api.publish.maven.MavenPomLicenseSpec
 
