@@ -13,7 +13,9 @@ mavenPublishing {
     coordinates(project.group.toString(), project.name, project.version.toString())
 
     publishToMavenCentral(SonatypeHost.Companion.S01, true)
-    signAllPublications()
+    if (providers.gradleProperty("kradle.sign-publications").getOrElse("false").toBoolean()) {
+        signAllPublications()
+    }
 
     pom {
         name.set("Kradle")
