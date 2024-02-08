@@ -3,6 +3,9 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
+- [1.0.11](#1011)
+  - [Publishing](#publishing)
 - [1.0.10](#1010)
   - [Android](#android)
   - [Kotlin](#kotlin)
@@ -12,17 +15,24 @@
   - [Kotlin](#kotlin-2)
 - [1.0.7](#107)
   - [Kotlin](#kotlin-3)
-  - [Publishing](#publishing)
+  - [Publishing](#publishing-1)
 - [1.0.6](#106)
   - [Android](#android-1)
 - [1.0.5](#105)
-  - [Publishing](#publishing-1)
+  - [Publishing](#publishing-2)
 - [1.0.4](#104)
 - [1.0.3](#103)
 - [1.0.2](#102)
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.11
+
+### Publishing
+
+- Retired publishing plugin since the plugin itself added no functionality - the extension functions are now part of the
+  common module
 
 ## 1.0.10
 
