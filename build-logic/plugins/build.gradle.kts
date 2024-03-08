@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    api(common.kotlin.gradleplugin)
-    api(common.vanniktech.publish.plugin)
+    api(shared.kotlin.gradleplugin)
+    api(shared.vanniktech.publish.gradleplugin)
     api(libs.kradle.kotlin)
 }
 

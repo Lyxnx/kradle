@@ -10,6 +10,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("io.github.lyxnx.gradle.android-catalogs") version "2024.03.08"
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -17,15 +21,11 @@ dependencyResolutionManagement {
         google()
         gradlePluginPortal()
     }
-    versionCatalogs {
-        val catalogsVersion = providers.gradleProperty("catalogs.version").get()
-        create("common") {
-            from("io.github.lyxnx.gradle:versions-common:$catalogsVersion")
-        }
-    }
 }
 
 rootProject.name = "kradle"
+
+includeBuild("build-logic")
 
 include(":plugin-common")
 include(":plugin-kotlin")

@@ -44,7 +44,7 @@ mavenPublishing {
 }
 
 fun getRootProperties(): Properties {
-    return file("../gradle.properties").bufferedReader().use {
+    return rootProject.layout.projectDirectory.file("gradle.properties").asFile.bufferedReader().use {
         Properties().apply { load(it) }
     }
 }

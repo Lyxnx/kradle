@@ -1,13 +1,15 @@
 @file:Suppress("UnstableApiUsage")
 
-import java.util.Properties
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
         google()
     }
+}
+
+plugins {
+    id("io.github.lyxnx.gradle.android-catalogs") version "2024.03.08"
 }
 
 dependencyResolutionManagement {
@@ -18,19 +20,11 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
     versionCatalogs {
-        val catalogsVersion = getRootProperties()["catalogs.version"].toString()
-        create("common") {
-            from("io.github.lyxnx.gradle:versions-common:$catalogsVersion")
-        }
-
         create("libs") {
             from(files("../gradle/libs.versions.toml"))
         }
     }
 }
 
-fun getRootProperties(): Properties {
-    return file("../gradle.properties").bufferedReader().use {
-        Properties().apply { load(it) }
-    }
-}
+rootProject.name = "build-logic"
+include(":plugins")

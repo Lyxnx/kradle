@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     api(projects.pluginCommon)
-    compileOnlyApi(common.kotlin.gradleplugin)
+    compileOnlyApi(shared.kotlin.gradleplugin)
 }
 
 description = "Plugins to reduce boilerplate in Kotlin modules"
