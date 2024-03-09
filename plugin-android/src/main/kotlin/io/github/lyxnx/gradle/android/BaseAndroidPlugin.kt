@@ -7,6 +7,7 @@ import io.github.lyxnx.gradle.android.internal.AndroidCommonExtension
 import io.github.lyxnx.gradle.android.internal.android
 import io.github.lyxnx.gradle.android.internal.androidComponents
 import io.github.lyxnx.gradle.android.internal.test
+import io.github.lyxnx.gradle.dsl.findBooleanProperty
 import io.github.lyxnx.gradle.kotlin.dsl.configureKotlin
 import io.github.lyxnx.gradle.kotlin.dsl.setTestOptions
 import org.gradle.api.Project
@@ -15,6 +16,8 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getPlugin
 import org.gradle.kotlin.dsl.kotlin
+
+private const val PROP_SUPPRESS_CACHEFIX = "kradle.android.suppressCacheFixWarning"
 
 public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() {
 
@@ -31,18 +34,24 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         if (configPlugin.hasCacheFixPlugin) {
             apply(plugin = CACHE_FIX_PLUGIN)
         } else {
-            logger.warn(
-                """
-                Could not find Android cache fix plugin. It is recommended to apply this plugin, but not required.
-                (See https://github.com/gradle/android-cache-fix-gradle-plugin)
+            val suppressWarning = findBooleanProperty(PROP_SUPPRESS_CACHEFIX) ?: false
+
+            if (!suppressWarning) {
+                logger.warn(
+                    """
+                        Could not find Android cache fix plugin. It is recommended to apply this plugin, but not required.
+                        (See https://github.com/gradle/android-cache-fix-gradle-plugin)
                 
-                If it would like to be used, make sure it is added as a build dependency
-                E.g. Add using apply false to the root project:
-                plugins {
-                    id("$CACHE_FIX_PLUGIN") version "<version>" apply false
-                }
-                """.trimIndent()
-            )
+                        If it would like to be used, make sure it is added as a build dependency
+                        E.g. Add using apply false to the root project:
+                        plugins {
+                            id("$CACHE_FIX_PLUGIN") version "<version>" apply false
+                        }
+                
+                        Alternatively, silence this warning by setting the property '$CACHE_FIX_PLUGIN' to true
+                    """.trimIndent()
+                )
+            }
         }
 
         // configureKotlin uses a jvm toolchain, which AGP 8.1.0-alpha09+ will grab the JDK version from and setup the
@@ -92,8 +101,14 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         val intVersion = version.toIntOrNull()
         if (intVersion != null) {
             compileSdk = intVersion
+            testOptions {
+                targetSdk = intVersion
+            }
         } else {
             compileSdkPreview = version
+            testOptions {
+                targetSdkPreview = version
+            }
         }
     }
 

@@ -21,6 +21,10 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
                 resValues = false
                 androidResources = false
             }
+
+            lint {
+                targetSdk = configPlugin.androidOptions.targetSdk.get()
+            }
         }
     }
 }
