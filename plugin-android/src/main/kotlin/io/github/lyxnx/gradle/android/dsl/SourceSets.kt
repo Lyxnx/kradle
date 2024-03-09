@@ -9,7 +9,7 @@ import com.android.SdkConstants.FD_RENDERSCRIPT
 import com.android.SdkConstants.FD_RES
 import com.android.SdkConstants.FN_ANDROID_MANIFEST_XML
 import com.android.build.api.dsl.AndroidSourceSet
-import com.android.build.api.dsl.CommonExtension
+import io.github.lyxnx.gradle.android.internal.AndroidCommonExtension
 import org.gradle.kotlin.dsl.get
 import java.util.Locale
 
@@ -23,7 +23,7 @@ import java.util.Locale
  * }
  * ```
  */
-public fun CommonExtension<*, *, *, *, *>.addSharedSourceSetRoot(
+public fun AndroidCommonExtension.addSharedSourceSetRoot(
     variant1: String,
     variant2: String,
     name: String = "$variant1${variant2.capitalized()}}"

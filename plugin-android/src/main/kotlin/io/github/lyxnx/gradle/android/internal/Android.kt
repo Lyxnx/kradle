@@ -8,7 +8,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByName
 
-internal typealias AndroidCommonExtension = CommonExtension<*, *, *, *, *>
+internal typealias AndroidCommonExtension = CommonExtension<*, *, *, *, *, *>
 
 internal fun <T : AndroidCommonExtension> Project.android(configure: T.() -> Unit) {
     extensions.configure("android", configure)
