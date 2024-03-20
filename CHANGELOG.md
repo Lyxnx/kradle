@@ -3,11 +3,14 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
+- [1.0.13](#1013)
+  - [Android](#android)
+- [1.0.12](#1012)
+  - [Android](#android-1)
 - [1.0.11](#1011)
   - [Publishing](#publishing)
 - [1.0.10](#1010)
-  - [Android](#android)
+  - [Android](#android-2)
   - [Kotlin](#kotlin)
 - [1.0.9](#109)
   - [Kotlin](#kotlin-1)
@@ -17,7 +20,7 @@
   - [Kotlin](#kotlin-3)
   - [Publishing](#publishing-1)
 - [1.0.6](#106)
-  - [Android](#android-1)
+  - [Android](#android-3)
 - [1.0.5](#105)
   - [Publishing](#publishing-2)
 - [1.0.4](#104)
@@ -26,6 +29,19 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.13
+
+### Android
+
+- Fix testOptions targetSdk applying to applications
+
+## 1.0.12
+
+### Android
+
+- Support AGP 8.3.0
+- Configure lint and testOptions targetSdk values 
 
 ## 1.0.11
 
