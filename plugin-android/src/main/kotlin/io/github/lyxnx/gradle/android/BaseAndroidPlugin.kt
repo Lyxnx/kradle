@@ -101,14 +101,8 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         val intVersion = version.toIntOrNull()
         if (intVersion != null) {
             compileSdk = intVersion
-            testOptions {
-                targetSdk = intVersion
-            }
         } else {
             compileSdkPreview = version
-            testOptions {
-                targetSdkPreview = version
-            }
         }
     }
 

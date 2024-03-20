@@ -25,6 +25,16 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
             lint {
                 targetSdk = configPlugin.androidOptions.targetSdk.get()
             }
+
+            val compileVersion = configPlugin.androidOptions.compileSdk.get()
+            val intVersion = compileVersion.toIntOrNull()
+            testOptions {
+                if (intVersion != null) {
+                    targetSdk = intVersion
+                } else {
+                    targetSdkPreview = compileVersion
+                }
+            }
         }
     }
 }
