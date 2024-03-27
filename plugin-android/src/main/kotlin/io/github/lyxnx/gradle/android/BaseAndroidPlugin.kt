@@ -48,7 +48,7 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
                             id("$CACHE_FIX_PLUGIN") version "<version>" apply false
                         }
                 
-                        Alternatively, silence this warning by setting the property '$CACHE_FIX_PLUGIN' to true
+                        Alternatively, silence this warning by setting the property '$PROP_SUPPRESS_CACHEFIX' to true
                     """.trimIndent()
                 )
             }
