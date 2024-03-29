@@ -25,8 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "kradle"
 
-includeBuild("build-logic")
-
-include(":plugin-common")
-include(":plugin-kotlin")
-include(":plugin-android")
+include(":kradle-plugin")
