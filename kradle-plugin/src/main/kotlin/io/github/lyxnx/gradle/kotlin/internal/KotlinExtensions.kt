@@ -1,21 +1,12 @@
 package io.github.lyxnx.gradle.kotlin.internal
 
-import io.github.lyxnx.gradle.KradlePlugin
+import io.github.lyxnx.gradle.dsl.getOrElse
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.kotlin.dsl.getByName
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.gradle.api.provider.Provider
 
-internal fun Project.java(configure: JavaPluginExtension.() -> Unit) {
-    extensions.configure("java", configure)
+internal fun Project.getJavaVersion(javaVersion: Provider<JavaVersion>) = javaVersion.getOrElse {
+    JavaVersion.current().also {
+        logger.warn("Could not determine specified JVM target - defaulting to current JDK version ($it)")
+    }
 }
-
-internal fun Project.kotlin(configure: KotlinProjectExtension.() -> Unit) {
-    extensions.configure("kotlin", configure)
-}
-
-internal val KradlePlugin.kotlin: KotlinProjectExtension
-    get() = project.kotlin
-
-internal val Project.kotlin: KotlinProjectExtension
-    get() = extensions.getByName<KotlinProjectExtension>("kotlin")

@@ -4,7 +4,6 @@ import io.github.lyxnx.gradle.dsl.findByName
 import io.github.lyxnx.gradle.dsl.parents
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
 import kotlin.reflect.KClass
@@ -25,9 +24,6 @@ public abstract class KradlePlugin : Plugin<Project> {
     @PublishedApi
     internal val kradleExtensions: Sequence<KradleExtensionImpl>
         get() = project.parents.mapNotNull { it.extensions.kradle }
-
-    public val logger: Logger
-        get() = project.logger
 
     final override fun apply(target: Project) {
         project = target

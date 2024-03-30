@@ -1,6 +1,7 @@
 package io.github.lyxnx.gradle.android
 
 import io.github.lyxnx.gradle.KradlePlugin
+import io.github.lyxnx.gradle.dsl.findBooleanProperty
 import io.github.lyxnx.gradle.dsl.hasPlugin
 import io.github.lyxnx.gradle.kotlin.KotlinConfigPlugin
 import org.gradle.api.JavaVersion
@@ -12,6 +13,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 internal const val CACHE_FIX_PLUGIN = "org.gradle.android.cache-fix"
+private const val PROP_SUPPRESS_CACHEFIX = "kradle.android.suppressCacheFixWarning"
 
 public open class AndroidConfigPlugin @Inject constructor(
     private val pluginRegistry: PluginRegistry
@@ -38,6 +40,24 @@ public open class AndroidConfigPlugin @Inject constructor(
         }
 
         hasCacheFixPlugin = pluginRegistry.hasPlugin(CACHE_FIX_PLUGIN)
+        val suppressWarning = findBooleanProperty(PROP_SUPPRESS_CACHEFIX) ?: false
+
+        if (!suppressWarning && !hasCacheFixPlugin) {
+            logger.warn(
+                """
+                    Could not find Android cache fix plugin. It is recommended to apply this plugin, but not required.
+                    (See https://github.com/gradle/android-cache-fix-gradle-plugin)
+                
+                    If it would like to be used, make sure it is added as a build dependency
+                    E.g. Add using apply false to the root project:
+                    plugins {
+                        id("$CACHE_FIX_PLUGIN") version "<version>" apply false
+                    }
+                
+                    Alternatively, silence this warning by setting the property '$PROP_SUPPRESS_CACHEFIX' to truesdf
+                """.trimIndent()
+            )
+        }
 
         val kotlinConfig = plugins.apply(KotlinConfigPlugin::class)
         androidOptions = createExtension(AndroidOptions.NAME)

@@ -2,9 +2,11 @@ package io.github.lyxnx.gradle.kotlin
 
 import io.github.lyxnx.gradle.KradlePlugin
 import io.github.lyxnx.gradle.kotlin.dsl.configureKotlin
-import io.github.lyxnx.gradle.kotlin.dsl.configureKotlinTest
+import io.github.lyxnx.gradle.kotlin.dsl.setTestOptions
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.withType
 
 public class KotlinLibraryPlugin : KradlePlugin() {
 
@@ -12,9 +14,8 @@ public class KotlinLibraryPlugin : KradlePlugin() {
         apply(plugin = "kotlin")
         val configPlugin = plugins.apply(KotlinConfigPlugin::class)
 
-        afterEvaluate {
-            configureKotlin(configPlugin.jvmTarget)
-            configureKotlinTest(configPlugin.testOptions)
-        }
+        configureKotlin(configPlugin.jvmTarget)
+
+        tasks.withType<Test>().configureEach { setTestOptions(configPlugin.testOptions) }
     }
 }
