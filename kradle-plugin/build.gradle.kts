@@ -8,6 +8,7 @@ plugins {
 
 group = "io.github.lyxnx.gradle"
 version = providers.gradleProperty("kradle.version").get()
+description = "Various Gradle plugins for Kotlin/Android boilerplate"
 
 dependencies {
     // Kotlin plugin

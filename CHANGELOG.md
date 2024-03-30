@@ -30,6 +30,12 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## 1.0.14
+
+Mostly internal changes
+
+Plugins are now merged into a single `kradle-plugin` artifact
+
 ## 1.0.13
 
 ### Android

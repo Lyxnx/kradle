@@ -1,12 +1,10 @@
 [versions]
 androidtools-common = "30.4.2"
 
-kradle = "1.0.12"
+kradle = "1.0.13"
 
 [libraries]
 androidtools-common = { module = "com.android.tools:common", version.ref = "androidtools-common" }
-
-kradle-kotlin = { module = "io.github.lyxnx.gradle:plugin-kotlin", version.ref = "kradle" }
 
 [plugins]
 kradle-kotlin-config = { id = "io.github.lyxnx.gradle.kotlin-config", version.ref = "kradle" }
