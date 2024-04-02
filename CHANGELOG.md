@@ -3,6 +3,8 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [1.0.15](#1015)
+- [1.0.14](#1014)
 - [1.0.13](#1013)
   - [Android](#android)
 - [1.0.12](#1012)
@@ -29,6 +31,10 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.0.15
+
+Fix issue with source+targetCompatibility values not being set for java task
 
 ## 1.0.14
 
