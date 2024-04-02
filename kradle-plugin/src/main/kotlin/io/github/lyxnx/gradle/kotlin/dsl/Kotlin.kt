@@ -5,9 +5,12 @@ import io.github.lyxnx.gradle.kotlin.KotlinTestOptionsImpl
 import io.github.lyxnx.gradle.kotlin.internal.getJavaVersion
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -25,6 +28,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 public fun Project.configureKotlin(javaVersion: Provider<JavaVersion>) {
     dependencies {
         add("testImplementation", kotlin("test"))
+    }
+
+    extensions.getByType<JavaPluginExtension>().apply {
+        getJavaVersion(javaVersion).let {
+            sourceCompatibility = it
+            targetCompatibility = it
+        }
     }
 
     tasks.withType<KotlinCompile>().configureEach {
