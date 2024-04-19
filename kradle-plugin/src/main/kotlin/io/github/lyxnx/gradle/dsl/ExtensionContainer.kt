@@ -2,6 +2,9 @@ package io.github.lyxnx.gradle.dsl
 
 import org.gradle.api.plugins.ExtensionContainer
 
+/**
+ * Finds an extension of type [T] with [name]
+ */
 @Suppress("EXTENSION_SHADOWED_BY_MEMBER")
 public inline fun <reified T : Any> ExtensionContainer.findByName(name: String): T? {
     return findByName(name)?.let {

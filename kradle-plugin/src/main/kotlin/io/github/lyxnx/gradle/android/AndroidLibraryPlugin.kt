@@ -1,40 +1,35 @@
 package io.github.lyxnx.gradle.android
 
 import com.android.build.api.dsl.LibraryExtension
+import io.github.lyxnx.gradle.internal.ANDROID_LIBRARY_PLUGIN_ID
 import io.github.lyxnx.gradle.android.internal.android
 import org.gradle.api.Project
-
-private const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
 
 public class AndroidLibraryPlugin : BaseAndroidPlugin() {
 
     override fun Project.configure() {
-        applyBasePlugin(ANDROID_LIBRARY_PLUGIN)
+        applyBasePlugin(ANDROID_LIBRARY_PLUGIN_ID)
 
-        android<LibraryExtension> {
-            defaultConfig {
-                consumerProguardFiles("consumer-rules.pro")
-            }
+        configureLibrary(configPlugin.androidOptions)
+    }
 
-            buildFeatures {
-                buildConfig = false
-                resValues = false
-                androidResources = false
-            }
+    private fun Project.configureLibrary(options: AndroidOptions) = android<LibraryExtension> {
+        defaultConfig {
+            consumerProguardFiles("consumer-rules.pro")
+        }
 
-            lint {
-                targetSdk = configPlugin.androidOptions.targetSdk.get()
-            }
+        buildFeatures {
+            buildConfig = false
+            resValues = false
+            androidResources = false
+        }
 
-            val compileVersion = configPlugin.androidOptions.compileSdk.get()
-            val intVersion = compileVersion.toIntOrNull()
-            testOptions {
-                if (intVersion != null) {
-                    targetSdk = intVersion
-                } else {
-                    targetSdkPreview = compileVersion
-                }
-            }
+        lint {
+            targetSdk = options.targetSdk.get()
+        }
+
+        testOptions {
+            targetSdk = options.targetSdk.get()
         }
     }
 }

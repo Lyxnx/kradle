@@ -22,7 +22,7 @@ public abstract class KradlePlugin : Plugin<Project> {
         private set
 
     @PublishedApi
-    internal val kradleExtensions: Sequence<KradleExtensionImpl>
+    internal val kradleExtensions: Sequence<DefaultKradleExtension>
         get() = project.parents.mapNotNull { it.extensions.kradle }
 
     final override fun apply(target: Project) {

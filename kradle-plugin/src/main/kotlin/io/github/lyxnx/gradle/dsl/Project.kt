@@ -27,3 +27,10 @@ public fun Project.findStringProperty(name: String): String? = providers.gradleP
  * If not found, this will return null rather than throwing an error
  */
 public fun Project.findBooleanProperty(name: String): Boolean? = findStringProperty(name)?.toBoolean()
+
+/**
+ * Finds the gradle property [name] and returns it as an integer
+ *
+ * If not found, this will return null rather than throwing an error
+ */
+public fun Project.findIntProperty(name: String): Int? = findStringProperty(name)?.toInt()

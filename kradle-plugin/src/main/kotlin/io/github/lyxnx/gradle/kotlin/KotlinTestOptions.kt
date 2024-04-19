@@ -1,6 +1,10 @@
 package io.github.lyxnx.gradle.kotlin
 
+import io.github.lyxnx.gradle.ExtensionDefaults
+import io.github.lyxnx.gradle.dsl.setFinalValue
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.testing.TestFrameworkOptions
 import org.gradle.api.tasks.testing.junit.JUnitOptions
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 
@@ -12,7 +16,7 @@ public interface KotlinTestOptions {
     /**
      * Whether the JUnit Jupiter Platform should be used
      */
-    public val useJunitPlatform: Property<Boolean>
+    public val useJunitPlatform: Provider<Boolean>
 
     /**
      * Configures JUnit Platform (Junit 5) that will be used for tests
@@ -26,6 +30,40 @@ public interface KotlinTestOptions {
 
     public companion object {
         public const val NAME: String = "test"
+    }
+
+}
+
+@Suppress("LeakingThis")
+internal abstract class DefaultKotlinTestOptions : KotlinTestOptions, ExtensionDefaults<DefaultKotlinTestOptions> {
+
+    abstract override val useJunitPlatform: Property<Boolean>
+
+    internal abstract val configuration: Property<TestFrameworkOptions.() -> Unit>
+
+    init {
+        useJunitPlatform
+            .convention(true)
+            .finalizeValueOnRead()
+
+        configuration
+            .convention { }
+            .finalizeValueOnRead()
+    }
+
+    override fun useJunitPlatform(configure: JUnitPlatformOptions.() -> Unit) {
+        useJunitPlatform.setFinalValue(true)
+        configuration.set { (this as JUnitPlatformOptions).configure() }
+    }
+
+    override fun useJunit(configure: JUnitOptions.() -> Unit) {
+        useJunitPlatform.setFinalValue(false)
+        configuration.set { (this as JUnitOptions).configure() }
+    }
+
+    override fun setDefaults(defaults: DefaultKotlinTestOptions) {
+        useJunitPlatform.convention(defaults.useJunitPlatform)
+        configuration.convention(defaults.configuration)
     }
 
 }

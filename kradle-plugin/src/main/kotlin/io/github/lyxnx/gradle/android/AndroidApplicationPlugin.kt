@@ -17,11 +17,7 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
         configureApp()
         androidComponents<ApplicationAndroidComponentsExtension> {
             finalizeDsl {
-                it.apply {
-                    defaultConfig {
-                        targetSdk = configPlugin.androidOptions.targetSdk.get()
-                    }
-                }
+                it.finalizeApp(configPlugin.androidOptions)
             }
         }
     }
@@ -48,6 +44,12 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
                 isMinifyEnabled = true
                 isShrinkResources = true
             }
+        }
+    }
+
+    private fun ApplicationExtension.finalizeApp(options: AndroidOptions) {
+        defaultConfig {
+            targetSdk = options.targetSdk.get()
         }
     }
 }
