@@ -65,6 +65,6 @@ Both will:
 
 [license img]:https://img.shields.io/badge/License-Apache_2.0-green.svg?style=flat-square
 
-[Maven Central]:https://maven-badges.herokuapp.com/maven-central/io.github.lyxnx.gradle/plugin-common
+[Maven Central]:https://maven-badges.herokuapp.com/maven-central/io.github.lyxnx.gradle/kradle-plugin
 
-[Maven Central img]:https://maven-badges.herokuapp.com/maven-central/io.github.lyxnx.gradle/plugin-common/badge.svg?style=flat-square&color=blue
+[Maven Central img]:https://maven-badges.herokuapp.com/maven-central/io.github.lyxnx.gradle/kradle-plugin/badge.svg?style=flat-square&color=blue
