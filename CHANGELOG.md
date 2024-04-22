@@ -3,6 +3,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [1.1.0](#110)
 - [1.0.15](#1015)
 - [1.0.14](#1014)
 - [1.0.13](#1013)
@@ -31,6 +32,10 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.1.0
+
+Stop plugins breaking when trying to reconfigure some already configured values
 
 ## 1.0.15
 
