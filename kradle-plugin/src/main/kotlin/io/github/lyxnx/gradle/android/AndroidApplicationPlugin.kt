@@ -5,14 +5,13 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import io.github.lyxnx.gradle.android.dsl.BUILD_TYPE_DEBUG
 import io.github.lyxnx.gradle.android.internal.android
 import io.github.lyxnx.gradle.android.internal.androidComponents
+import io.github.lyxnx.gradle.internal.ANDROID_APPLICATION_PLUGIN_ID
 import org.gradle.api.Project
-
-private const val ANDROID_APPLICATION_PLUGIN = "com.android.application"
 
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
     override fun Project.configure() {
-        applyBasePlugin(ANDROID_APPLICATION_PLUGIN)
+        applyBasePlugin(ANDROID_APPLICATION_PLUGIN_ID)
 
         configureApp()
         androidComponents<ApplicationAndroidComponentsExtension> {

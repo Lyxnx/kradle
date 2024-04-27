@@ -77,7 +77,7 @@ public interface AndroidOptions {
 }
 
 @Suppress("LeakingThis")
-internal abstract class DefaultAndroidOptions : AndroidOptions, ExtensionDefaults<DefaultAndroidOptions> {
+public abstract class DefaultAndroidOptions : AndroidOptions, ExtensionDefaults<DefaultAndroidOptions> {
 
     private val testOptions: DefaultKotlinTestOptions
     private var testDefaultsSet = false

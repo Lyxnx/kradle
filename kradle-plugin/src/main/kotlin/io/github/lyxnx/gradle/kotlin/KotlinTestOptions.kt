@@ -35,7 +35,7 @@ public interface KotlinTestOptions {
 }
 
 @Suppress("LeakingThis")
-internal abstract class DefaultKotlinTestOptions : KotlinTestOptions, ExtensionDefaults<DefaultKotlinTestOptions> {
+public abstract class DefaultKotlinTestOptions : KotlinTestOptions, ExtensionDefaults<DefaultKotlinTestOptions> {
 
     abstract override val useJunitPlatform: Property<Boolean>
 

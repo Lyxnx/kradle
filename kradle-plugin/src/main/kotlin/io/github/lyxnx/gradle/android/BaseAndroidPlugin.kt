@@ -2,59 +2,68 @@
 
 package io.github.lyxnx.gradle.android
 
-import io.github.lyxnx.gradle.internal.ANDROIDX_TEST_RUNNER
-import io.github.lyxnx.gradle.internal.ANDROID_CACHE_FIX_PLUGIN_ID
-import io.github.lyxnx.gradle.internal.KOTLIN_ANDROID_PLUGIN_ID
 import io.github.lyxnx.gradle.KradlePlugin
 import io.github.lyxnx.gradle.android.internal.AndroidCommonExtension
-import io.github.lyxnx.gradle.android.internal.android
 import io.github.lyxnx.gradle.android.internal.androidComponents
 import io.github.lyxnx.gradle.android.internal.test
 import io.github.lyxnx.gradle.dsl.ifPresent
+import io.github.lyxnx.gradle.internal.ANDROIDX_TEST_RUNNER
+import io.github.lyxnx.gradle.internal.ANDROID_CACHE_FIX_PLUGIN_ID
+import io.github.lyxnx.gradle.internal.KOTLIN_ANDROID_PLUGIN_ID
+import io.github.lyxnx.gradle.kotlin.dsl.applyKotlinOptions
 import io.github.lyxnx.gradle.kotlin.dsl.configureKotlin
 import io.github.lyxnx.gradle.kotlin.dsl.setTestOptions
-import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.findPlugin
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.getPlugin
-import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
+import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 
 public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() {
 
     protected val configPlugin: AndroidConfigPlugin
         get() = project.plugins.getPlugin(AndroidConfigPlugin::class)
 
-    protected fun Project.applyBasePlugin(pluginId: String) {
-        if (project == rootProject) {
-            throw GradleException("Kradle plugin requesting '$pluginId' cannot be applied to the root project")
-        }
+    protected lateinit var kotlinPlugin: KotlinBasePluginWrapper
+        private set
 
+    protected fun Project.applyBasePlugin(pluginId: String) {
         val configPlugin = plugins.apply(AndroidConfigPlugin::class)
+
+        kotlinPlugin = plugins.findPlugin(KotlinMultiplatformPluginWrapper::class)
+            ?: plugins.apply(KotlinAndroidPluginWrapper::class)
 
         apply {
             plugin(pluginId)
-            plugin(KOTLIN_ANDROID_PLUGIN_ID)
+
+            if (kotlinPlugin !is KotlinMultiplatformPluginWrapper) {
+                plugin(KOTLIN_ANDROID_PLUGIN_ID)
+            }
 
             if (configPlugin.hasCacheFixPlugin) {
                 plugin(ANDROID_CACHE_FIX_PLUGIN_ID)
             }
         }
 
-        configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
-        configureAndroid()
+        configureKotlin(kotlinPlugin, kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
 
-        dependencies {
-            add("androidTestImplementation", kotlin("test"))
+        if (kotlinPlugin is KotlinMultiplatformPluginWrapper) {
+            configureKMPTarget(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
         }
 
         androidComponents {
             finalizeDsl { extension ->
                 configPlugin.run {
-                    extension.applyAndroidOptions(
+                    extension.configureBaseAndroidOptions(
                         options = androidOptions,
                         jvmTarget = kradleExtension.jvmTarget
                     )
@@ -64,21 +73,19 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         }
     }
 
-    private fun Project.configureAndroid() = android<AndroidCommonExtension> {
-        buildFeatures {
-            aidl = false
-            shaders = false
-            renderScript = false
-        }
-    }
-
-    private fun AndroidCommonExtension.applyAndroidOptions(
+    private fun AndroidCommonExtension.configureBaseAndroidOptions(
         options: AndroidOptions,
         jvmTarget: Provider<JavaVersion>
     ) {
         options.ndkVersion.ifPresent { ndkVersion = it }
         options.buildToolsVersion.ifPresent { buildToolsVersion = it }
         setCompileSdk(options.compileSdk.get())
+
+        buildFeatures {
+            aidl = false
+            shaders = false
+            renderScript = false
+        }
 
         defaultConfig {
             minSdk = options.minSdk.get()
@@ -111,6 +118,16 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
             tasks.named("test") {
                 val testTasksFilter = options.testTasksFilter.get()
                 setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
+            }
+        }
+    }
+
+    private fun Project.configureKMPTarget(jvmTarget: Provider<JavaVersion>, compilerArgs: Provider<Set<String>>) {
+        extensions.getByType<KotlinMultiplatformExtension>().apply {
+            targets.withType<KotlinAndroidTarget> {
+                compilations.configureEach {
+                    kotlinOptions.applyKotlinOptions(jvmTarget, compilerArgs)
+                }
             }
         }
     }
