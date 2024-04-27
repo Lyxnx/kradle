@@ -3,6 +3,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [1.1.1](#111)
 - [1.1.0](#110)
 - [1.0.15](#1015)
 - [1.0.14](#1014)
@@ -32,6 +33,10 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 1.1.1
+
+Support KMP
 
 ## 1.1.0
 
