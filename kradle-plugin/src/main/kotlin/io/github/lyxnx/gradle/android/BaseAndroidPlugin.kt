@@ -39,19 +39,19 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
     protected fun Project.applyBasePlugin(pluginId: String) {
         val configPlugin = plugins.apply(AndroidConfigPlugin::class)
 
-        kotlinPlugin = plugins.findPlugin(KotlinMultiplatformPluginWrapper::class)
-            ?: plugins.apply(KotlinAndroidPluginWrapper::class)
+        apply(plugin = pluginId)
 
-        apply {
-            plugin(pluginId)
+        val multiplatformPlugin = plugins.findPlugin(KotlinMultiplatformPluginWrapper::class)
 
-            if (kotlinPlugin !is KotlinMultiplatformPluginWrapper) {
-                plugin(KOTLIN_ANDROID_PLUGIN_ID)
-            }
+        if (multiplatformPlugin == null) {
+            apply(plugin = KOTLIN_ANDROID_PLUGIN_ID)
+            kotlinPlugin = plugins.getPlugin(KotlinAndroidPluginWrapper::class)
+        } else {
+            kotlinPlugin = multiplatformPlugin
+        }
 
-            if (configPlugin.hasCacheFixPlugin) {
-                plugin(ANDROID_CACHE_FIX_PLUGIN_ID)
-            }
+        if (configPlugin.hasCacheFixPlugin) {
+            apply(plugin = ANDROID_CACHE_FIX_PLUGIN_ID)
         }
 
         configureKotlin(kotlinPlugin, kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
