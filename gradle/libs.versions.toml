@@ -1,7 +1,7 @@
 [versions]
 androidtools-common = "31.3.2"
 
-kradle = "1.1.0"
+kradle = "1.1.1"
 
 [libraries]
 androidtools-common = { module = "com.android.tools:common", version.ref = "androidtools-common" }
