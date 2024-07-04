@@ -73,7 +73,7 @@ mavenPublishing {
     coordinates(project.group.toString(), project.name, project.version.toString())
 
     publishToMavenCentral(SonatypeHost.Companion.S01, true)
-    if (providers.gradleProperty("kradle.sign-publications").getOrElse("false").toBoolean()) {
+    if (!version.toString().endsWith("SNAPSHOT")) {
         signAllPublications()
     }
 
