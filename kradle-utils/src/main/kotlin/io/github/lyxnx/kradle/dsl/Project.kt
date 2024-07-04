@@ -39,3 +39,8 @@ public fun Project.findIntProperty(name: String): Int? = findStringProperty(name
  * Returns whether this project's version is a snapshot version (ends with `-SNAPSHOT`)
  */
 public val Project.isSnapshotVersion: Boolean get() = version.toString().endsWith("-SNAPSHOT")
+
+/**
+ * Returns whether this project is the root project
+ */
+public val Project.isRoot: Boolean get() = this == rootProject
