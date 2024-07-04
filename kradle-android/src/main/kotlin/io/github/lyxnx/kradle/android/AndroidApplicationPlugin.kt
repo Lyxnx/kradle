@@ -2,15 +2,22 @@ package io.github.lyxnx.kradle.android
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import io.github.lyxnx.kradle.android.dsl.BUILD_TYPE_DEBUG
-import io.github.lyxnx.kradle.android.internal.android
-import io.github.lyxnx.kradle.android.internal.androidComponents
+import io.github.lyxnx.kradle.android.dsl.BuildType
+import io.github.lyxnx.kradle.android.dsl.android
+import io.github.lyxnx.kradle.android.dsl.androidComponents
+import org.gradle.api.GradleException
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.hasPlugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
     override fun Project.configure() {
-        applyBasePlugin(ANDROID_APPLICATION_PLUGIN_ID)
+        if (plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
+            throw GradleException("Kotlin Multiplatform plugin is not supported with the Android Application plugin. Only library projects are supported.")
+        }
+
+        applyBasePlugin(Constants.APPLICATION_PLUGIN_ID)
 
         configureApp()
         androidComponents<ApplicationAndroidComponentsExtension> {
@@ -30,7 +37,7 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
         buildTypes {
             debug {
-                applicationIdSuffix = ".$BUILD_TYPE_DEBUG"
+                applicationIdSuffix = ".${BuildType.DEBUG}"
                 isDebuggable = true
                 isMinifyEnabled = false
                 isShrinkResources = false

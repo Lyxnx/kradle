@@ -6,7 +6,6 @@ import io.github.lyxnx.kradle.dsl.findByName
 import io.github.lyxnx.kradle.dsl.parents
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
 import kotlin.reflect.KClass
 
@@ -24,7 +23,7 @@ public abstract class KradlePlugin : Plugin<Project> {
         private set
 
     @PublishedApi
-    internal val kradleExtensions: Sequence<DefaultKradleExtension>
+    internal val kradleExtensions: Sequence<KradleExtension>
         get() = project.parents.mapNotNull { it.extensions.kradle }
 
     final override fun apply(target: Project) {
@@ -62,7 +61,7 @@ public abstract class KradlePlugin : Plugin<Project> {
         val defaults = kradleExtensions
             .mapNotNull { it.extensions.findByName<T>(name) }
             .firstOrNull()
-        return (kradleExtension as ExtensionAware).extensions.createWithDefaults(name, defaults, publicType)
+        return kradleExtension.extensions.createWithDefaults(name, defaults, publicType)
     }
 
     private fun ExtensionContainer.obtainKradleExtension(): KradleExtension {

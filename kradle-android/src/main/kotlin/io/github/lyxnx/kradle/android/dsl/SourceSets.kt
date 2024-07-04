@@ -9,7 +9,6 @@ import com.android.SdkConstants.FD_RENDERSCRIPT
 import com.android.SdkConstants.FD_RES
 import com.android.SdkConstants.FN_ANDROID_MANIFEST_XML
 import com.android.build.api.dsl.AndroidSourceSet
-import io.github.lyxnx.kradle.android.internal.AndroidCommonExtension
 import org.gradle.kotlin.dsl.get
 import java.util.Locale
 

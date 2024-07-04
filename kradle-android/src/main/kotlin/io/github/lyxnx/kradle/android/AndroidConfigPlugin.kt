@@ -14,45 +14,58 @@ public open class AndroidConfigPlugin @Inject constructor(
     private val pluginRegistry: PluginRegistry
 ) : KradlePlugin() {
 
-    private lateinit var _androidOptions: DefaultAndroidOptions
-    public val androidOptions: AndroidOptions get() = _androidOptions
+    public lateinit var androidOptions: AndroidOptions
+        private set
 
     internal var hasCacheFixPlugin: Boolean by Delegates.notNull()
         private set
 
     override fun Project.configure() {
-        check(pluginRegistry.hasPlugin(ANDROID_APPLICATION_PLUGIN_ID)) {
+        check(
+            pluginRegistry.hasPlugin(Constants.APPLICATION_PLUGIN_ID)
+                || pluginRegistry.hasPlugin(Constants.LIBRARY_PLUGIN_ID)
+        ) {
             """
-            Android gradle plugin cannot be found. Make sure it is added as a build dependency to the project.
-            E.g. Add using "apply false" to the root project:
-            plugins {
-                id("$ANDROID_APPLICATION_PLUGIN_ID") version "<version>" apply false
-            }
+            Android gradle plugin cannot be found. Make sure it is added as a build dependency to the project:
+            1. Add using "apply false" to the root project:
+               plugins {
+                   id("${Constants.APPLICATION_PLUGIN_ID}") version <version> apply false
+                   // or
+                   id("${Constants.LIBRARY_PLUGIN_ID}") version <version> apply false
+               }
+            2. Add as dependency to buildSrc or another included build:
+               dependencies {
+                   implementation("${Constants.AGP_PLUGIN_DEP}:<version>")
+               }
             """.trimIndent()
         }
 
-        hasCacheFixPlugin = pluginRegistry.hasPlugin(ANDROID_CACHE_FIX_PLUGIN_ID)
-        val suppressWarning = findBooleanProperty(PROP_ANDROID_SUPPRESS_CACHEFIX) ?: false
+        hasCacheFixPlugin = pluginRegistry.hasPlugin(Constants.CACHEFIX_PLUGIN_ID)
+        val suppressWarning = findBooleanProperty(Constants.PROP_ANDROID_SUPPRESS_CACHEFIX) ?: false
 
         if (!suppressWarning && !hasCacheFixPlugin) {
             logger.warn(
                 """
-                    Could not find Android cache fix plugin. It is recommended to apply this plugin, but not required.
-                    (See https://github.com/gradle/android-cache-fix-gradle-plugin)
+                Could not find Android cache fix plugin. It is recommended to apply this plugin, but not required.
+                (See https://github.com/gradle/android-cache-fix-gradle-plugin)
                 
-                    If it would like to be used, make sure it is added as a build dependency
-                    E.g. Add using apply false to the root project:
-                    plugins {
-                        id("$ANDROID_CACHE_FIX_PLUGIN_ID") version "<version>" apply false
-                    }
+                If it would like to be used, make sure it is added as a build dependency:
+                1. Add using apply false to the root project:
+                   plugins {
+                       id("${Constants.CACHEFIX_PLUGIN_ID}") version <version> apply false
+                   }
+                2. Add as dependency to buildSrc or another included build:
+                   dependencies {
+                       implementation("${Constants.CACHEFIX_PLUGIN_DEP}:<version>")
+                   }
                 
-                    Alternatively, silence this warning by setting the property '$PROP_ANDROID_SUPPRESS_CACHEFIX' to true
+                Alternatively, silence this warning by setting the property '${Constants.PROP_ANDROID_SUPPRESS_CACHEFIX}' to true
                 """.trimIndent()
             )
         }
 
         val kotlinConfig = plugins.apply(KotlinConfigPlugin::class)
-        _androidOptions = createExtension(AndroidOptions.NAME)
-        _androidOptions.setTestDefaults(kotlinConfig.testOptions)
+        androidOptions = createExtension(AndroidOptions.NAME)
+        androidOptions.setTestDefaults(kotlinConfig.testOptions)
     }
 }

@@ -1,27 +1,28 @@
 package io.github.lyxnx.kradle.android
 
 import io.github.lyxnx.kradle.dsl.ExtensionDefaults
-import io.github.lyxnx.kradle.kotlin.DefaultKotlinTestOptions
 import io.github.lyxnx.kradle.kotlin.KotlinTestOptions
+import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.property
 
 /**
  * Configuration options for Android projects
  */
-public interface AndroidOptions {
+public abstract class AndroidOptions(project: Project) : ExtensionAware, ExtensionDefaults<AndroidOptions> {
 
     /**
      * Configures the min sdk for all Android modules
      */
-    public val minSdk: Property<Int>
+    public val minSdk: Property<Int> = project.objects.property()
 
     /**
      * Configures the target sdk for all Android modules
      */
-    public val targetSdk: Property<Int>
+    public val targetSdk: Property<Int> = project.objects.property()
 
     /**
      * Configures the compile sdk for all Android modules
@@ -30,7 +31,7 @@ public interface AndroidOptions {
      *
      * Will use [targetSdk] if not configured
      */
-    public val compileSdk: Property<String>
+    public val compileSdk: Property<String> = project.objects.property()
 
     /**
      * Configures the build tools property for all Android modules
@@ -39,7 +40,7 @@ public interface AndroidOptions {
      *
      * See https://developer.android.com/build/releases/gradle-plugin#compatibility for the default version
      */
-    public val buildToolsVersion: Property<String>
+    public val buildToolsVersion: Property<String> = project.objects.property()
 
     /**
      * Configures the NDK version for all Android modules
@@ -48,7 +49,7 @@ public interface AndroidOptions {
      *
      * See https://developer.android.com/build/releases/gradle-plugin#compatibility for the default version
      */
-    public val ndkVersion: Property<String>
+    public val ndkVersion: Property<String> = project.objects.property()
 
     /**
      * Configures the filter for tasks named `test`
@@ -58,36 +59,17 @@ public interface AndroidOptions {
      *
      * By default, all test tasks will be run
      */
-    public val testTasksFilter: Property<(TaskProvider<*>) -> Boolean>
+    public val testTasksFilter: Property<(TaskProvider<*>) -> Boolean> = project.objects.property()
 
-    public companion object {
-        /**
-         * The default minimum SDK for all Android modules
-         */
-        public const val DEFAULT_MIN_SDK: Int = 21
-
-        /**
-         * The default target SDK for all Android modules
-         */
-        public const val DEFAULT_TARGET_SDK: Int = 34
-
-        public const val NAME: String = "android"
-    }
-
-}
-
-@Suppress("LeakingThis")
-public abstract class DefaultAndroidOptions : AndroidOptions, ExtensionDefaults<DefaultAndroidOptions> {
-
-    private val testOptions: DefaultKotlinTestOptions
+    private val testOptions: KotlinTestOptions
     private var testDefaultsSet = false
 
     init {
         minSdk
-            .convention(AndroidOptions.DEFAULT_MIN_SDK)
+            .convention(DEFAULT_MIN_SDK)
             .finalizeValueOnRead()
         targetSdk
-            .convention(AndroidOptions.DEFAULT_TARGET_SDK)
+            .convention(DEFAULT_TARGET_SDK)
             .finalizeValueOnRead()
         compileSdk
             .convention(targetSdk.map(Int::toString))
@@ -100,15 +82,10 @@ public abstract class DefaultAndroidOptions : AndroidOptions, ExtensionDefaults<
             .convention { true }
             .finalizeValueOnRead()
 
-        testOptions = (this as ExtensionAware).extensions
-            .create(
-                publicType = KotlinTestOptions::class,
-                name = KotlinTestOptions.NAME,
-                instanceType = DefaultKotlinTestOptions::class
-            ) as DefaultKotlinTestOptions
+        testOptions = extensions.create(name = KotlinTestOptions.NAME)
     }
 
-    override fun setDefaults(defaults: DefaultAndroidOptions) {
+    override fun setDefaults(defaults: AndroidOptions) {
         minSdk.convention(defaults.minSdk)
         targetSdk.convention(defaults.targetSdk)
         compileSdk.convention(defaults.compileSdk)
@@ -118,10 +95,24 @@ public abstract class DefaultAndroidOptions : AndroidOptions, ExtensionDefaults<
         setTestDefaults(defaults.testOptions)
     }
 
-    internal fun setTestDefaults(defaults: DefaultKotlinTestOptions) {
+    internal fun setTestDefaults(defaults: KotlinTestOptions) {
         if (testDefaultsSet) return
         testDefaultsSet = true
         testOptions.setDefaults(defaults)
+    }
+
+    public companion object {
+        /**
+         * The default minimum SDK for all Android modules
+         */
+        public const val DEFAULT_MIN_SDK: Int = Constants.MIN_SDK
+
+        /**
+         * The default target SDK for all Android modules
+         */
+        public const val DEFAULT_TARGET_SDK: Int = Constants.TARGET_SDK
+
+        public const val NAME: String = "android"
     }
 
 }

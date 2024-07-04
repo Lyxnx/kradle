@@ -2,68 +2,57 @@ package io.github.lyxnx.kradle.kotlin
 
 import io.github.lyxnx.kradle.dsl.ExtensionDefaults
 import io.github.lyxnx.kradle.dsl.setFinalValue
+import org.gradle.api.Action
+import org.gradle.api.Project
 import org.gradle.api.provider.Property
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.testing.TestFrameworkOptions
 import org.gradle.api.tasks.testing.junit.JUnitOptions
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
+import org.gradle.kotlin.dsl.property
 
 /**
  * Options used to configure tests for the Kotlin gradle plugin
  */
-public interface KotlinTestOptions {
+public open class KotlinTestOptions(project: Project) : ExtensionDefaults<KotlinTestOptions> {
 
     /**
      * Whether the JUnit Jupiter Platform should be used
      */
-    public val useJunitPlatform: Provider<Boolean>
+    internal val useJunitPlatform: Property<Boolean> = project.objects.property()
 
-    /**
-     * Configures JUnit Platform (Junit 5) that will be used for tests
-     */
-    public fun useJunitPlatform(configure: JUnitPlatformOptions.() -> Unit = {})
-
-    /**
-     * Configures JUnit 4 for tests
-     */
-    public fun useJunit(configure: JUnitOptions.() -> Unit = {})
-
-    public companion object {
-        public const val NAME: String = "test"
-    }
-
-}
-
-@Suppress("LeakingThis")
-public abstract class DefaultKotlinTestOptions : KotlinTestOptions, ExtensionDefaults<DefaultKotlinTestOptions> {
-
-    abstract override val useJunitPlatform: Property<Boolean>
-
-    internal abstract val configuration: Property<TestFrameworkOptions.() -> Unit>
+    internal val configuration: Property<TestFrameworkOptions.() -> Unit> = project.objects.property()
 
     init {
         useJunitPlatform
-            .convention(true)
+            .convention(false)
             .finalizeValueOnRead()
-
         configuration
             .convention { }
             .finalizeValueOnRead()
     }
 
-    override fun useJunitPlatform(configure: JUnitPlatformOptions.() -> Unit) {
+    /**
+     * Configures JUnit Platform (Junit 5) that will be used for tests
+     */
+    public fun useJunitPlatform(configure: Action<JUnitPlatformOptions>? = null) {
         useJunitPlatform.setFinalValue(true)
-        configuration.set { (this as JUnitPlatformOptions).configure() }
+        configuration.set { configure?.execute(this as JUnitPlatformOptions) }
     }
 
-    override fun useJunit(configure: JUnitOptions.() -> Unit) {
+    /**
+     * Configures JUnit 4 for tests
+     */
+    public fun useJunit(configure: Action<JUnitOptions>? = null) {
         useJunitPlatform.setFinalValue(false)
-        configuration.set { (this as JUnitOptions).configure() }
+        configuration.set { configure?.execute(this as JUnitOptions) }
     }
 
-    override fun setDefaults(defaults: DefaultKotlinTestOptions) {
+    override fun setDefaults(defaults: KotlinTestOptions) {
         useJunitPlatform.convention(defaults.useJunitPlatform)
         configuration.convention(defaults.configuration)
     }
 
+    public companion object {
+        public const val NAME: String = "test"
+    }
 }

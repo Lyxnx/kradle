@@ -3,10 +3,13 @@ package io.github.lyxnx.kradle
 import io.github.lyxnx.kradle.dsl.ExtensionDefaults
 import io.github.lyxnx.kradle.dsl.findByName
 import org.gradle.api.JavaVersion
+import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.SetProperty
+import org.gradle.kotlin.dsl.property
+import org.gradle.kotlin.dsl.setProperty
 
 /**
  * Extension used as a namespace for all Kradle plugins' extensions
@@ -20,17 +23,31 @@ import org.gradle.api.provider.SetProperty
  * }
  * ```
  */
-public interface KradleExtension {
+public abstract class KradleExtension(project: Project) : ExtensionAware, ExtensionDefaults<KradleExtension> {
 
     /**
      * JVM version to apply to all modules
      */
-    public val jvmTarget: Property<JavaVersion>
+    public val jvmTarget: Property<JavaVersion> = project.objects.property()
 
     /**
      * Extra compiler arguments to apply to all modules
      */
-    public val kotlinCompilerArgs: SetProperty<String>
+    public val kotlinCompilerArgs: SetProperty<String> = project.objects.setProperty()
+
+    init {
+        jvmTarget
+            .convention(JavaVersion.VERSION_11)
+            .finalizeValueOnRead()
+        kotlinCompilerArgs
+            .convention(emptySet())
+            .finalizeValueOnRead()
+    }
+
+    override fun setDefaults(defaults: KradleExtension) {
+        jvmTarget.convention(defaults.jvmTarget)
+        kotlinCompilerArgs.convention(defaults.kotlinCompilerArgs)
+    }
 
     public companion object {
         public const val NAME: String = "kradle"
@@ -38,27 +55,4 @@ public interface KradleExtension {
 
 }
 
-@Suppress("LeakingThis")
-internal abstract class DefaultKradleExtension : KradleExtension, ExtensionAware,
-    ExtensionDefaults<DefaultKradleExtension> {
-
-    init {
-        jvmTarget
-            .convention(JavaVersion.VERSION_11)
-            .finalizeValueOnRead()
-
-        kotlinCompilerArgs
-            .convention(emptySet())
-            .finalizeValueOnRead()
-    }
-
-    override fun setDefaults(defaults: DefaultKradleExtension) {
-        jvmTarget.convention(defaults.jvmTarget)
-        kotlinCompilerArgs.convention(defaults.kotlinCompilerArgs)
-    }
-}
-
-@PublishedApi
-internal val ExtensionContainer.kradle: DefaultKradleExtension?
-    get() = findByName<DefaultKradleExtension>(KradleExtension.NAME)
-
+internal val ExtensionContainer.kradle: KradleExtension? get() = findByName<KradleExtension>(KradleExtension.NAME)

@@ -3,7 +3,6 @@
 package io.github.lyxnx.kradle.android.dsl
 
 import com.android.build.api.dsl.ManagedVirtualDevice
-import io.github.lyxnx.kradle.android.internal.AndroidCommonExtension
 import org.gradle.kotlin.dsl.get
 
 /**
