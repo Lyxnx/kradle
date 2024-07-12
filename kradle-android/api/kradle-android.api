@@ -1,0 +1,107 @@
+public final class io/github/lyxnx/kradle/android/AndroidApplicationPlugin : io/github/lyxnx/kradle/android/BaseAndroidPlugin {
+	public fun <init> ()V
+}
+
+public class io/github/lyxnx/kradle/android/AndroidConfigPlugin : io/github/lyxnx/kradle/KradlePlugin {
+	public fun <init> (Lorg/gradle/api/internal/plugins/PluginRegistry;)V
+	protected fun configure (Lorg/gradle/api/Project;)V
+	public final fun getAndroidOptions ()Lio/github/lyxnx/kradle/android/AndroidOptions;
+}
+
+public final class io/github/lyxnx/kradle/android/AndroidLibraryPlugin : io/github/lyxnx/kradle/android/BaseAndroidPlugin {
+	public fun <init> ()V
+}
+
+public final class io/github/lyxnx/kradle/android/AndroidLibraryPluginKt {
+	public static final fun configureAndroidLibrary (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
+	public static final fun configureKMPAndroidLibrary (Lorg/gradle/api/Project;)V
+}
+
+public abstract class io/github/lyxnx/kradle/android/AndroidOptions : io/github/lyxnx/kradle/dsl/ExtensionDefaults, org/gradle/api/plugins/ExtensionAware {
+	public static final field Companion Lio/github/lyxnx/kradle/android/AndroidOptions$Companion;
+	public static final field DEFAULT_MIN_SDK I
+	public static final field DEFAULT_TARGET_SDK I
+	public static final field NAME Ljava/lang/String;
+	public fun <init> (Lorg/gradle/api/Project;)V
+	public final fun getBuildToolsVersion ()Lorg/gradle/api/provider/Property;
+	public final fun getCompileSdk ()Lorg/gradle/api/provider/Property;
+	public final fun getMinSdk ()Lorg/gradle/api/provider/Property;
+	public final fun getNdkVersion ()Lorg/gradle/api/provider/Property;
+	public final fun getTargetSdk ()Lorg/gradle/api/provider/Property;
+	public final fun getTestTasksFilter ()Lorg/gradle/api/provider/Property;
+	public fun setDefaults (Lio/github/lyxnx/kradle/android/AndroidOptions;)V
+	public synthetic fun setDefaults (Ljava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/android/AndroidOptions$Companion {
+}
+
+public abstract class io/github/lyxnx/kradle/android/BaseAndroidPlugin : io/github/lyxnx/kradle/KradlePlugin {
+	protected final fun applyBasePlugin (Lorg/gradle/api/Project;Ljava/lang/String;)V
+	protected final fun getConfigPlugin ()Lio/github/lyxnx/kradle/android/AndroidConfigPlugin;
+}
+
+public final class io/github/lyxnx/kradle/android/BaseAndroidPluginKt {
+	public static final fun configureBaseAndroidOptions (Lcom/android/build/api/dsl/CommonExtension;Lio/github/lyxnx/kradle/android/AndroidOptions;Lorg/gradle/api/provider/Provider;)V
+	public static final fun configureKMPTarget (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
+	public static final fun filterTestTaskDependencies (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
+}
+
+public final class io/github/lyxnx/kradle/android/BaseAndroidPluginKt$inlined$sam$i$org_gradle_api_Action$0 : org/gradle/api/Action {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final synthetic fun execute (Ljava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/android/dsl/AndroidKt {
+	public static final fun android (Lorg/gradle/api/Project;Lkotlin/jvm/functions/Function1;)V
+	public static final fun androidComponents (Lorg/gradle/api/Project;Lkotlin/jvm/functions/Function1;)V
+	public static final fun androidComponentsCommon (Lorg/gradle/api/Project;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/github/lyxnx/kradle/android/dsl/BuildType : java/lang/Enum {
+	public static final field DEBUG Lio/github/lyxnx/kradle/android/dsl/BuildType;
+	public static final field RELEASE Lio/github/lyxnx/kradle/android/dsl/BuildType;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/lyxnx/kradle/android/dsl/BuildType;
+	public static fun values ()[Lio/github/lyxnx/kradle/android/dsl/BuildType;
+}
+
+public final class io/github/lyxnx/kradle/android/dsl/ManagedDeviceConfig {
+	public fun <init> (Ljava/lang/String;ILjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;ILjava/lang/String;)Lio/github/lyxnx/kradle/android/dsl/ManagedDeviceConfig;
+	public static synthetic fun copy$default (Lio/github/lyxnx/kradle/android/dsl/ManagedDeviceConfig;Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Lio/github/lyxnx/kradle/android/dsl/ManagedDeviceConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getApiLevel ()I
+	public final fun getDevice ()Ljava/lang/String;
+	public final fun getSystemImageSource ()Ljava/lang/String;
+	public final fun getTaskName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/lyxnx/kradle/android/dsl/ManagedDeviceGroupConfig {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/github/lyxnx/kradle/android/dsl/ManagedDeviceGroupConfig;
+	public static synthetic fun copy$default (Lio/github/lyxnx/kradle/android/dsl/ManagedDeviceGroupConfig;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/lyxnx/kradle/android/dsl/ManagedDeviceGroupConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDevices ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/lyxnx/kradle/android/dsl/ManagedDevicesKt {
+	public static final fun configureManagedDevices (Lcom/android/build/api/dsl/CommonExtension;Ljava/util/List;Ljava/util/List;)V
+	public static synthetic fun configureManagedDevices$default (Lcom/android/build/api/dsl/CommonExtension;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/android/dsl/SourceSetsKt {
+	public static final fun addSharedSourceSetRoot (Lcom/android/build/api/dsl/CommonExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public static synthetic fun addSharedSourceSetRoot$default (Lcom/android/build/api/dsl/CommonExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)V
+}
+

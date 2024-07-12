@@ -1,0 +1,62 @@
+public abstract interface class io/github/lyxnx/kradle/dsl/ExtensionDefaults {
+	public abstract fun setDefaults (Ljava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/dsl/PluginRegistryKt {
+	public static final fun hasPlugin (Lorg/gradle/api/internal/plugins/PluginRegistry;Ljava/lang/String;)Z
+}
+
+public final class io/github/lyxnx/kradle/dsl/ProjectKt {
+	public static final fun findBooleanProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/Boolean;
+	public static final fun findIntProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/Integer;
+	public static final fun findStringProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun flattenedProjectTree (Lorg/gradle/api/Project;)Ljava/util/Set;
+	public static final fun getParents (Lorg/gradle/api/Project;)Lkotlin/sequences/Sequence;
+	public static final fun isRoot (Lorg/gradle/api/Project;)Z
+	public static final fun isSnapshotVersion (Lorg/gradle/api/Project;)Z
+}
+
+public final class io/github/lyxnx/kradle/dsl/PropertyKt {
+	public static final fun getOrElse (Lorg/gradle/api/provider/Provider;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public static final fun ifPresent (Lorg/gradle/api/provider/Provider;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/provider/Provider;
+	public static final fun setFinalValue (Lorg/gradle/api/provider/Property;Ljava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/dsl/RepositoriesKt {
+	public static final fun githubPackages (Lorg/gradle/api/artifacts/dsl/RepositoryHandler;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)Lorg/gradle/api/artifacts/repositories/MavenArtifactRepository;
+	public static synthetic fun githubPackages$default (Lorg/gradle/api/artifacts/dsl/RepositoryHandler;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)Lorg/gradle/api/artifacts/repositories/MavenArtifactRepository;
+	public static final fun jitpack (Lorg/gradle/api/artifacts/dsl/RepositoryHandler;Lorg/gradle/api/Action;)Lorg/gradle/api/artifacts/repositories/MavenArtifactRepository;
+	public static synthetic fun jitpack$default (Lorg/gradle/api/artifacts/dsl/RepositoryHandler;Lorg/gradle/api/Action;ILjava/lang/Object;)Lorg/gradle/api/artifacts/repositories/MavenArtifactRepository;
+}
+
+public final class io/github/lyxnx/kradle/dsl/publishing/LicensesKt {
+	public static final fun apacheV2 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun apacheV2$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun bsd2 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun bsd2$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun bsd3 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun bsd3$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun gpl2 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun gpl2$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun gpl3 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun gpl3$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun lgpl2 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun lgpl2$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun lgpl3 (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun lgpl3$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun mit (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun mit$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun mozilla (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;)V
+	public static synthetic fun mozilla$default (Lorg/gradle/api/publish/maven/MavenPomLicenseSpec;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/dsl/publishing/MavenPomKt {
+	public static final fun contributor (Lorg/gradle/api/publish/maven/MavenPomContributorSpec;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public static synthetic fun contributor$default (Lorg/gradle/api/publish/maven/MavenPomContributorSpec;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun developer (Lorg/gradle/api/publish/maven/MavenPomDeveloperSpec;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public static synthetic fun developer$default (Lorg/gradle/api/publish/maven/MavenPomDeveloperSpec;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun githubDeveloper (Lorg/gradle/api/publish/maven/MavenPomDeveloperSpec;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public static synthetic fun githubDeveloper$default (Lorg/gradle/api/publish/maven/MavenPomDeveloperSpec;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static final fun githubProject (Lorg/gradle/api/publish/maven/MavenPom;Ljava/lang/String;)V
+}
+

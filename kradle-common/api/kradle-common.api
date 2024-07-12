@@ -1,0 +1,23 @@
+public abstract class io/github/lyxnx/kradle/KradleExtension : io/github/lyxnx/kradle/dsl/ExtensionDefaults, org/gradle/api/plugins/ExtensionAware {
+	public static final field Companion Lio/github/lyxnx/kradle/KradleExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun <init> (Lorg/gradle/api/Project;)V
+	public final fun getJvmTarget ()Lorg/gradle/api/provider/Property;
+	public final fun getKotlinCompilerArgs ()Lorg/gradle/api/provider/SetProperty;
+	public fun setDefaults (Lio/github/lyxnx/kradle/KradleExtension;)V
+	public synthetic fun setDefaults (Ljava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/KradleExtension$Companion {
+}
+
+public abstract class io/github/lyxnx/kradle/KradlePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public final fun apply (Lorg/gradle/api/Project;)V
+	protected abstract fun configure (Lorg/gradle/api/Project;)V
+	protected final fun getKradleExtension ()Lio/github/lyxnx/kradle/KradleExtension;
+	public final fun getKradleExtensions ()Lkotlin/sequences/Sequence;
+	public final fun getProject ()Lorg/gradle/api/Project;
+}
+

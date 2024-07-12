@@ -1,5 +1,11 @@
 [versions]
 androidtools-common = "31.3.2"
 
+kotlinx-bcv = "0.15.1"
+
 [libraries]
 androidtools-common = { module = "com.android.tools:common", version.ref = "androidtools-common" }
+
+[plugins]
+
+kotlinx-binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinx-bcv" }

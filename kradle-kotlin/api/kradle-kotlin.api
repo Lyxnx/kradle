@@ -1,0 +1,33 @@
+public class io/github/lyxnx/kradle/kotlin/KotlinConfigPlugin : io/github/lyxnx/kradle/KradlePlugin {
+	public fun <init> (Lorg/gradle/api/internal/plugins/PluginRegistry;)V
+	protected fun configure (Lorg/gradle/api/Project;)V
+	public final fun getTestOptions ()Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;
+}
+
+public final class io/github/lyxnx/kradle/kotlin/KotlinLibraryPlugin : io/github/lyxnx/kradle/KradlePlugin {
+	public fun <init> ()V
+}
+
+public class io/github/lyxnx/kradle/kotlin/KotlinTestOptions : io/github/lyxnx/kradle/dsl/ExtensionDefaults {
+	public static final field Companion Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions$Companion;
+	public static final field NAME Ljava/lang/String;
+	public fun <init> (Lorg/gradle/api/Project;)V
+	public fun setDefaults (Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;)V
+	public synthetic fun setDefaults (Ljava/lang/Object;)V
+	public final fun useJunit (Lorg/gradle/api/Action;)V
+	public static synthetic fun useJunit$default (Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public final fun useJunitPlatform (Lorg/gradle/api/Action;)V
+	public static synthetic fun useJunitPlatform$default (Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/kotlin/KotlinTestOptions$Companion {
+}
+
+public final class io/github/lyxnx/kradle/kotlin/dsl/KotlinKt {
+	public static final fun applyKotlinOptions (Lorg/jetbrains/kotlin/gradle/dsl/KotlinJvmCompilerOptions;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
+	public static final fun configureJava (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;)V
+	public static final fun configureKotlin (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
+	public static final fun configureKotlinTest (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;)V
+	public static final fun setTestOptions (Lorg/gradle/api/tasks/testing/Test;Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;)V
+}
+

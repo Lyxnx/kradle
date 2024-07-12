@@ -1,5 +1,7 @@
 plugins {
     `kotlin-dsl` apply false
+
+    alias(libs.plugins.kotlinx.binary.compatibility.validator)
 }
 
 subprojects {
