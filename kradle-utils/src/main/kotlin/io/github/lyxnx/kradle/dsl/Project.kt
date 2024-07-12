@@ -44,3 +44,25 @@ public val Project.isSnapshotVersion: Boolean get() = version.toString().endsWit
  * Returns whether this project is the root project
  */
 public val Project.isRoot: Boolean get() = this == rootProject
+
+/**
+ * Returns the flattened project tree for this project
+ *
+ * For example, consider the following project structure:
+ *
+ * ```
+ * :
+ * ├── :projectA
+ * │   └── :projectB
+ * └── :projectC
+ * ```
+ *
+ * Calling this function on `projectA` will return a set containing only `projectB`, since `projectA` only acts as a
+ * root project. Likewise, calling this on the root project, `:`, will return a set containing `projectB` and `projectC`
+ */
+public fun Project.flattenedProjectTree(): Set<Project> {
+    return subprojects
+        .flatMap { it.flattenedProjectTree() }
+        .toSet()
+        .ifEmpty { setOf(this) }
+}
