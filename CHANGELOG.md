@@ -3,6 +3,8 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [2.0.1](#201)
+- [2.0.0](#200)
 - [1.1.2](#112)
 - [1.1.1](#111)
 - [1.1.0](#110)
@@ -34,6 +36,16 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 2.0.1
+
+Add flattenedProjectTree utility function
+
+## 2.0.0
+
+Rename plugin IDs to `io.github.lyxnx.kradle.*` - this is a breaking change
+
+Fix issue with android library lint and test option sdks being set too early in single module projects
 
 ## 1.1.2
 
