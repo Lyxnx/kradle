@@ -6,6 +6,7 @@ import io.github.lyxnx.kradle.KradlePlugin
 import io.github.lyxnx.kradle.android.dsl.AndroidCommonExtension
 import io.github.lyxnx.kradle.android.dsl.androidComponents
 import io.github.lyxnx.kradle.android.dsl.test
+import io.github.lyxnx.kradle.dsl.getOrElse
 import io.github.lyxnx.kradle.dsl.ifPresent
 import io.github.lyxnx.kradle.dsl.isRoot
 import io.github.lyxnx.kradle.kotlin.dsl.applyKotlinOptions
@@ -71,8 +72,7 @@ public fun AndroidCommonExtension.configureBaseAndroidOptions(
 ) {
     options.ndkVersion.ifPresent { ndkVersion = it }
     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-    setCompileSdk(options.compileSdk.get())
-
+    setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
     buildFeatures {
         aidl = false
         shaders = false

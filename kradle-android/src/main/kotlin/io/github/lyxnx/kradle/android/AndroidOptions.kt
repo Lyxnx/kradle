@@ -29,7 +29,7 @@ public abstract class AndroidOptions(project: Project) : ExtensionAware, Extensi
      *
      * This can be a version number "33" or a version code "TIRAMISU"
      *
-     * Will use [targetSdk] if not configured
+     * If not configured, [targetSdk] will be used for the compile sdk value
      */
     public val compileSdk: Property<String> = project.objects.property()
 
@@ -72,7 +72,6 @@ public abstract class AndroidOptions(project: Project) : ExtensionAware, Extensi
             .convention(DEFAULT_TARGET_SDK)
             .finalizeValueOnRead()
         compileSdk
-            .convention(targetSdk.map(Int::toString))
             .finalizeValueOnRead()
         buildToolsVersion
             .finalizeValueOnRead()
