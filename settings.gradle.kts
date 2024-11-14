@@ -11,7 +11,7 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.lyxnx.gradle.android-catalogs") version "2024.06.22"
+    id("io.github.lyxnx.gradle.catalogs") version "2024.11.08"
 }
 
 dependencyResolutionManagement {
