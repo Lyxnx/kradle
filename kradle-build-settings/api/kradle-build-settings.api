@@ -1,0 +1,20 @@
+public final class io/github/lyxnx/kradle/settings/BuildSettingsPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/initialization/Settings;)V
+}
+
+public final class io/github/lyxnx/kradle/settings/ProjectsScope {
+	public final fun directory (Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public static synthetic fun directory$default (Lio/github/lyxnx/kradle/settings/ProjectsScope;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public final fun folder (Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public static synthetic fun folder$default (Lio/github/lyxnx/kradle/settings/ProjectsScope;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public final fun module (Ljava/lang/String;)V
+	public final fun module (Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public static synthetic fun module$default (Lio/github/lyxnx/kradle/settings/ProjectsScope;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+}
+
+public final class io/github/lyxnx/kradle/settings/ProjectsScopeKt {
+	public static final fun projects (Lorg/gradle/api/initialization/Settings;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
