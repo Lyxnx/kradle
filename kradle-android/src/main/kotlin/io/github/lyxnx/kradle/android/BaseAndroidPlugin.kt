@@ -45,10 +45,6 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
             apply(plugin = Constants.KOTLIN_ANDROID_PLUGIN_ID)
         }
 
-        if (configPlugin.hasCacheFixPlugin) {
-            apply(plugin = Constants.CACHEFIX_PLUGIN_ID)
-        }
-
         configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
         configureKMPTarget(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
 

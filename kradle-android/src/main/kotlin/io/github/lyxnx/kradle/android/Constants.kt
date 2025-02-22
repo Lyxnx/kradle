@@ -10,10 +10,5 @@ internal object Constants {
     const val LIBRARY_PLUGIN_ID = "com.android.library"
     const val APPLICATION_PLUGIN_ID = "com.android.application"
 
-    const val CACHEFIX_PLUGIN_ID = "org.gradle.android.cache-fix"
-    const val CACHEFIX_PLUGIN_DEP = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin"
-
     const val KOTLIN_ANDROID_PLUGIN_ID = "kotlin-android"
-
-    const val PROP_ANDROID_SUPPRESS_CACHEFIX = "kradle.android.suppressCacheFixWarning"
 }
