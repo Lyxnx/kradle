@@ -7,6 +7,13 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STARTED
 import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
@@ -90,7 +97,12 @@ public fun Test.setTestOptions(options: KotlinTestOptions) {
     val configure = options.configuration.get()
     if (options.useJunitPlatform.get()) {
         useJUnitPlatform(configure)
-        testLogging { events("passed", "skipped", "failed") }
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+            events(STARTED, PASSED, SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
+            showStandardStreams = true
+            showStackTraces = true
+        }
     } else {
         useJUnit(configure)
     }
