@@ -3,6 +3,10 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [2.0.3](#203)
+  - [Android](#android)
+  - [Common](#common)
+  - [Kotlin](#kotlin)
 - [2.0.2](#202)
 - [2.0.1](#201)
 - [2.0.0](#200)
@@ -12,23 +16,23 @@
 - [1.0.15](#1015)
 - [1.0.14](#1014)
 - [1.0.13](#1013)
-  - [Android](#android)
-- [1.0.12](#1012)
   - [Android](#android-1)
+- [1.0.12](#1012)
+  - [Android](#android-2)
 - [1.0.11](#1011)
   - [Publishing](#publishing)
 - [1.0.10](#1010)
-  - [Android](#android-2)
-  - [Kotlin](#kotlin)
-- [1.0.9](#109)
+  - [Android](#android-3)
   - [Kotlin](#kotlin-1)
-- [1.0.8](#108)
+- [1.0.9](#109)
   - [Kotlin](#kotlin-2)
-- [1.0.7](#107)
+- [1.0.8](#108)
   - [Kotlin](#kotlin-3)
+- [1.0.7](#107)
+  - [Kotlin](#kotlin-4)
   - [Publishing](#publishing-1)
 - [1.0.6](#106)
-  - [Android](#android-3)
+  - [Android](#android-4)
 - [1.0.5](#105)
   - [Publishing](#publishing-2)
 - [1.0.4](#104)
@@ -37,6 +41,23 @@
 - [1.0.1](#101)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## 2.0.3
+
+- Add new `io.github.lyxnx.kradle.build-settings` plugin for working with settings configuration files
+
+### Android
+
+- Removed android cachefix plugin warning
+- Updated default target sdk to 35 from 34
+
+### Common
+
+- Fix kotlin compiler args being overridden in child projects
+
+### Kotlin
+
+- Update junit5 configuration slightly
 
 ## 2.0.2
 
