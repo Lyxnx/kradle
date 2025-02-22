@@ -46,7 +46,12 @@ public abstract class KradleExtension(project: Project) : ExtensionAware, Extens
 
     override fun setDefaults(defaults: KradleExtension) {
         jvmTarget.convention(defaults.jvmTarget)
-        kotlinCompilerArgs.convention(defaults.kotlinCompilerArgs)
+        /*
+        Don't use convention here as adding further down the line causes the convention value to be replaced
+
+        https://github.com/gradle/gradle/issues/18352#issuecomment-925080375
+         */
+        kotlinCompilerArgs.set(defaults.kotlinCompilerArgs)
     }
 
     public companion object {
