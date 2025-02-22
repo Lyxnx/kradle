@@ -2,7 +2,7 @@ package io.github.lyxnx.kradle.android
 
 internal object Constants {
     const val MIN_SDK = 21
-    const val TARGET_SDK = 34
+    const val TARGET_SDK = 35
 
     const val ANDROIDX_TEST_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 
