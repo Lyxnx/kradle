@@ -1,4 +1,30 @@
-build/
-local.properties
-.idea/
+# Gradle files
 .gradle/
+build/
+
+# IntelliJ specific files
+*.iml
+.idea/*
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# MacOS files
+.DS_Store
+
+# AS generated files
+captures/
+.externalNativeBuild/
+.cxx/
+
+# AS files
+local.properties
+*.jks
+*.keystore
+
+# Kotlin build files
+.kotlin/
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*

@@ -4,3 +4,12 @@ root = true
 charset = utf-8
 end_of_line = lf
 insert_final_newline = true
+# Set the indent for ALL files, any special files can be overridden below
+indent_size = 4
+indent_style = space
+
+[*.{json,sh}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
