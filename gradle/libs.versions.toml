@@ -1,7 +1,7 @@
 [versions]
-androidtools-common = "31.3.2"
+androidtools-common = "31.8.1"
 
-kotlinx-bcv = "0.15.1"
+kotlinx-bcv = "0.17.0"
 
 [libraries]
 androidtools-common = { module = "com.android.tools:common", version.ref = "androidtools-common" }
