@@ -9,7 +9,7 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.lyxnx.gradle.catalogs") version "2025.02.14"
+    id("io.github.lyxnx.gradle.catalogs") version "2025.06.27"
 }
 
 dependencyResolutionManagement {
