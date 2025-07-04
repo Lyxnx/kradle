@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     id("kotlin-commons")
     id("com.vanniktech.maven.publish")
@@ -10,7 +8,7 @@ version = providers.gradleProperty("kradle.version").get()
 
 mavenPublishing {
     coordinates(project.group.toString(), project.name, project.version.toString())
-    publishToMavenCentral(SonatypeHost.S01, true)
+    publishToMavenCentral(true)
 
     if (!version.toString().endsWith("SNAPSHOT")) {
         signAllPublications()
