@@ -2,7 +2,6 @@ package io.github.lyxnx.kradle.android
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import io.github.lyxnx.kradle.android.dsl.BuildType
 import io.github.lyxnx.kradle.android.dsl.android
 import io.github.lyxnx.kradle.android.dsl.androidComponents
 import org.gradle.api.GradleException
@@ -37,14 +36,12 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
         buildTypes {
             debug {
-                applicationIdSuffix = ".${BuildType.DEBUG}"
                 isDebuggable = true
                 isMinifyEnabled = false
                 isShrinkResources = false
             }
 
             release {
-                applicationIdSuffix = ""
                 isDebuggable = false
                 isMinifyEnabled = true
                 isShrinkResources = true
