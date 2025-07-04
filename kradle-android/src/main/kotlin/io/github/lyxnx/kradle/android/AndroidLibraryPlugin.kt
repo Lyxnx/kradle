@@ -28,8 +28,9 @@ public fun Project.configureAndroidLibrary(options: AndroidOptions) {
         buildFeatures {
             buildConfig = false
             resValues = false
-            androidResources = false
         }
+
+        androidResources.enable = false
 
         // For some reason these are being set instantly and not being delayed
         // In multi module projects this is fine but for single module projects this is not and trying to set the

@@ -32,8 +32,8 @@ public fun <T : AndroidCommonExtension> Project.android(configure: T.() -> Unit)
  * Configures the generic `androidComponents` extension
  */
 @JvmName("androidComponentsCommon")
-public fun Project.androidComponents(configure: AndroidComponentsExtension<*, *, *>.() -> Unit) {
-    androidComponents<AndroidComponentsExtension<*, *, *>>(configure)
+public fun Project.androidComponents(configure: AndroidComponentsExtension<AndroidCommonExtension, *, *>.() -> Unit) {
+    androidComponents<AndroidComponentsExtension<AndroidCommonExtension, *, *>>(configure)
 }
 
 /**
