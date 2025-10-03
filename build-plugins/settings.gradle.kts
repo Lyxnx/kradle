@@ -9,7 +9,8 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.lyxnx.gradle.catalogs") version "2025.06.27"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    id("io.github.lyxnx.gradle.catalogs") version "2025.09.12"
 }
 
 dependencyResolutionManagement {

@@ -18,7 +18,7 @@ public fun AndroidCommonExtension.configureManagedDevices(
 ) {
     testOptions {
         managedDevices {
-            devices.apply {
+            allDevices.apply {
                 configs.forEach { config ->
                     maybeCreate(config.taskName, ManagedVirtualDevice::class.java).apply {
                         device = config.device
@@ -32,7 +32,7 @@ public fun AndroidCommonExtension.configureManagedDevices(
                     configGroups.forEach { group ->
                         maybeCreate(group.name).apply {
                             group.devices.forEach { config ->
-                                targetDevices.add(devices[config.taskName])
+                                targetDevices.add(allDevices[config.taskName])
                             }
                         }
                     }

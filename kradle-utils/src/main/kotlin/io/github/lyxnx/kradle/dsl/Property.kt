@@ -18,7 +18,7 @@ public fun <T : Any> Property<T>.setFinalValue(value: T) {
  *
  * Note that [orElse] is lazily evaluated, and only called if no value is present
  */
-public inline fun <R, T : R> Provider<T>.getOrElse(orElse: () -> R): R {
+public inline fun <R : Any, T : R> Provider<T>.getOrElse(orElse: () -> R): R {
     contract {
         callsInPlace(orElse, InvocationKind.AT_MOST_ONCE)
     }
@@ -28,7 +28,7 @@ public inline fun <R, T : R> Provider<T>.getOrElse(orElse: () -> R): R {
 /**
  * Executes [action] if and only if this provider has a value and returns the original provider for chaining
  */
-public inline fun <T> Provider<T>.ifPresent(action: (T) -> Unit): Provider<T> {
+public inline fun <T : Any> Provider<T>.ifPresent(action: (T) -> Unit): Provider<T> {
     contract {
         callsInPlace(action, InvocationKind.AT_MOST_ONCE)
     }

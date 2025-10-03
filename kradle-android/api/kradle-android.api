@@ -61,6 +61,7 @@ public final class io/github/lyxnx/kradle/android/dsl/AndroidKt {
 public final class io/github/lyxnx/kradle/android/dsl/BuildType : java/lang/Enum {
 	public static final field DEBUG Lio/github/lyxnx/kradle/android/dsl/BuildType;
 	public static final field RELEASE Lio/github/lyxnx/kradle/android/dsl/BuildType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public fun toString ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/lyxnx/kradle/android/dsl/BuildType;
 	public static fun values ()[Lio/github/lyxnx/kradle/android/dsl/BuildType;
