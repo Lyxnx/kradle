@@ -5,7 +5,7 @@ plugins {
 dependencies {
     api(projects.kradleKotlin)
 
-    compileOnly(shared.android.gradleplugin)
+    compileOnly(shared.android.gradleplugin.api)
     compileOnly(libs.androidtools.common)
 }
 
