@@ -6,13 +6,7 @@ import org.gradle.api.Project
  * Lists the parent projects all the way up to the root project for this project instance
  */
 public val Project.parents: Sequence<Project>
-    get() = sequence {
-        var project = project.parent
-        while (project != null) {
-            yield(project)
-            project = project.parent
-        }
-    }
+    get() = generateSequence(project.parent) { it.parent }
 
 /**
  * Finds the gradle property [name] and returns it as a string
@@ -62,7 +56,16 @@ public val Project.isRoot: Boolean get() = this == rootProject
  */
 public fun Project.flattenedProjectTree(): Set<Project> {
     return subprojects
-        .flatMap { it.flattenedProjectTree() }
+        .flatMap(Project::flattenedProjectTree)
         .toSet()
         .ifEmpty { setOf(this) }
+}
+
+/**
+ * Returns an 'extra' property as defined in the `ext` extension, or null if the property doesn't exist
+ */
+public fun Project.extraPropertyOrNull(key: String): Any? {
+    val container = project.extensions.extraProperties
+    return if (container.has(key)) container.get(key)
+    else null
 }
