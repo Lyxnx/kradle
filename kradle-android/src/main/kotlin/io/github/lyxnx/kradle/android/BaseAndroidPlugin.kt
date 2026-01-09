@@ -9,7 +9,6 @@ import io.github.lyxnx.kradle.android.dsl.test
 import io.github.lyxnx.kradle.dsl.getOrElse
 import io.github.lyxnx.kradle.dsl.ifPresent
 import io.github.lyxnx.kradle.dsl.isRoot
-import io.github.lyxnx.kradle.kotlin.dsl.applyKotlinOptions
 import io.github.lyxnx.kradle.kotlin.dsl.configureKotlin
 import io.github.lyxnx.kradle.kotlin.dsl.setTestOptions
 import org.gradle.api.GradleException
@@ -18,13 +17,7 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getPlugin
-import org.gradle.kotlin.dsl.hasPlugin
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 
 public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() {
 
@@ -40,13 +33,9 @@ public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() 
         val configPlugin = plugins.apply(AndroidConfigPlugin::class)
 
         apply(plugin = pluginId)
-
-        if (!plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
-            apply(plugin = Constants.KOTLIN_ANDROID_PLUGIN_ID)
-        }
+        apply(plugin = Constants.KOTLIN_ANDROID_PLUGIN_ID)
 
         configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
-        configureKMPTarget(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
 
         androidComponents {
             finalizeDsl { extension ->
@@ -106,18 +95,6 @@ public fun Project.filterTestTaskDependencies(options: AndroidOptions) {
         tasks.named("test") {
             val testTasksFilter = options.testTasksFilter.get()
             setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
-        }
-    }
-}
-
-public fun Project.configureKMPTarget(jvmTarget: Provider<JavaVersion>, compilerArgs: Provider<Set<String>>) {
-    extensions.findByType<KotlinMultiplatformExtension>()?.apply {
-        targets.withType<KotlinAndroidTarget> {
-            compilations.configureEach {
-                compileTaskProvider.configure {
-                    compilerOptions.applyKotlinOptions(jvmTarget, compilerArgs)
-                }
-            }
         }
     }
 }

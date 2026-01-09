@@ -19,6 +19,7 @@ public open class AndroidConfigPlugin @Inject constructor(
         check(
             pluginRegistry.hasPlugin(Constants.APPLICATION_PLUGIN_ID)
                 || pluginRegistry.hasPlugin(Constants.LIBRARY_PLUGIN_ID)
+                || pluginRegistry.hasPlugin(Constants.KMP_LIBRARY_PLUGIN_ID)
         ) {
             """
             Android gradle plugin cannot be found. Make sure it is added as a build dependency to the project:

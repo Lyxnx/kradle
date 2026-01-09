@@ -8,6 +8,7 @@ internal object Constants {
 
     const val AGP_PLUGIN_DEP = "com.android.tools.build:gradle"
     const val LIBRARY_PLUGIN_ID = "com.android.library"
+    const val KMP_LIBRARY_PLUGIN_ID = "com.android.kotlin.multiplatform.library"
     const val APPLICATION_PLUGIN_ID = "com.android.application"
 
     const val KOTLIN_ANDROID_PLUGIN_ID = "kotlin-android"

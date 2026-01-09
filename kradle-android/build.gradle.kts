@@ -36,5 +36,13 @@ gradlePlugin {
             description = "Configures Android library modules"
             tags("android", "library")
         }
+
+        register("android-kmp-library") {
+            id = "io.github.lyxnx.kradle.android-multiplatform-library"
+            implementationClass = "io.github.lyxnx.kradle.android.AndroidKmpLibraryPlugin"
+            displayName = "Android Kotlin Multiplatform library"
+            description = "Configures Android library modules for Kotlin Multiplatform"
+            tags("android", "library", "multiplatform", "kmp")
+        }
     }
 }
