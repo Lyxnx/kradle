@@ -54,7 +54,7 @@ public abstract class AndroidOptions(project: Project) : ExtensionAware, Extensi
     /**
      * Configures the filter for tasks named `test`
      *
-     * This will be called for each task and if true is returned, that that task will be included when running the
+     * This will be called for each task and if true is returned, that task will be included when running the
      * main `test` command, and excluded otherwise
      *
      * By default, all test tasks will be run

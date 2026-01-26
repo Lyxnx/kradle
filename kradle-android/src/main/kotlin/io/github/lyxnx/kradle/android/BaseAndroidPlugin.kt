@@ -2,99 +2,36 @@
 
 package io.github.lyxnx.kradle.android
 
+import com.android.build.gradle.BasePlugin
 import io.github.lyxnx.kradle.KradlePlugin
-import io.github.lyxnx.kradle.android.dsl.AndroidCommonExtension
-import io.github.lyxnx.kradle.android.dsl.androidComponents
-import io.github.lyxnx.kradle.android.dsl.test
-import io.github.lyxnx.kradle.dsl.getOrElse
-import io.github.lyxnx.kradle.dsl.ifPresent
 import io.github.lyxnx.kradle.dsl.isRoot
 import io.github.lyxnx.kradle.kotlin.dsl.configureKotlin
-import io.github.lyxnx.kradle.kotlin.dsl.setTestOptions
 import org.gradle.api.GradleException
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.getPlugin
+import kotlin.reflect.KClass
 
-public abstract class BaseAndroidPlugin internal constructor() : KradlePlugin() {
+public abstract class BaseAndroidPlugin : KradlePlugin() {
 
     protected val configPlugin: AndroidConfigPlugin
         get() = project.plugins.getPlugin(AndroidConfigPlugin::class)
 
-    protected fun Project.applyBasePlugin(pluginId: String) {
-        // Only allow it to be applied to subprojects but if it's a single module project (no submodules) then allow it
-        if (isRoot && rootProject.subprojects.isNotEmpty()) {
-            throw GradleException("Android plugins can only be applied to subprojects, not the root project")
+    protected abstract val pluginClass: KClass<out BasePlugin>
+
+    override fun configure(project: Project) {
+        if (project.isRoot && project.rootProject.subprojects.isNotEmpty()) {
+            throw GradleException("Kradle Android plugins can only be applied to subprojects, not the root project")
         }
 
-        val configPlugin = plugins.apply(AndroidConfigPlugin::class)
+        val configPlugin = project.plugins.apply(AndroidConfigPlugin::class)
 
-        apply(plugin = pluginId)
-        apply(plugin = Constants.KOTLIN_ANDROID_PLUGIN_ID)
+        project.plugins.apply(pluginClass)
 
-        configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
+        project.configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
 
-        androidComponents {
-            finalizeDsl { extension ->
-                configPlugin.run {
-                    extension.configureBaseAndroidOptions(
-                        options = androidOptions,
-                        jvmTarget = kradleExtension.jvmTarget
-                    )
-                    filterTestTaskDependencies(androidOptions)
-                }
-            }
-        }
-    }
-}
-
-public fun AndroidCommonExtension.configureBaseAndroidOptions(
-    options: AndroidOptions,
-    jvmTarget: Provider<JavaVersion>
-) {
-    options.ndkVersion.ifPresent { ndkVersion = it }
-    options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-    setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
-    buildFeatures {
-        aidl = false
-        shaders = false
-        renderScript = false
+        configureAndroid(configPlugin.androidOptions)
     }
 
-    defaultConfig {
-        minSdk = options.minSdk.get()
-
-        testInstrumentationRunner = Constants.ANDROIDX_TEST_RUNNER
-    }
-
-    compileOptions {
-        // This configures the standard java {} source/target compatibilities so don't need to do it here
-        sourceCompatibility = jvmTarget.get()
-        targetCompatibility = jvmTarget.get()
-    }
-
-    testOptions {
-        unitTests.all { it.setTestOptions(options.test) }
-    }
-}
-
-private fun AndroidCommonExtension.setCompileSdk(version: String) {
-    val intVersion = version.toIntOrNull()
-    if (intVersion != null) {
-        compileSdk = intVersion
-    } else {
-        compileSdkPreview = version
-    }
-}
-
-public fun Project.filterTestTaskDependencies(options: AndroidOptions) {
-    afterEvaluate {
-        tasks.named("test") {
-            val testTasksFilter = options.testTasksFilter.get()
-            setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
-        }
-    }
+    protected open fun configureAndroid(options: AndroidOptions) {}
 }

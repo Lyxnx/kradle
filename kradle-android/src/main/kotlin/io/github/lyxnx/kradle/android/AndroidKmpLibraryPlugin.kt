@@ -1,74 +1,69 @@
 package io.github.lyxnx.kradle.android
 
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
-import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import com.android.build.api.variant.KotlinMultiplatformAndroidComponentsExtension
-import io.github.lyxnx.kradle.KradlePlugin
+import com.android.build.gradle.BasePlugin
+import com.android.build.gradle.api.KotlinMultiplatformAndroidPlugin
 import io.github.lyxnx.kradle.android.dsl.androidComponents
+import io.github.lyxnx.kradle.android.internal.ifExists
 import io.github.lyxnx.kradle.dsl.getOrElse
 import io.github.lyxnx.kradle.dsl.ifPresent
-import io.github.lyxnx.kradle.dsl.isRoot
-import io.github.lyxnx.kradle.kotlin.dsl.configureKotlin
 import org.gradle.api.GradleException
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.getByType
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.hasPlugin
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+import kotlin.reflect.KClass
 
-// TODO: refactor this along with the other android plugins
-public class AndroidKmpLibraryPlugin : KradlePlugin() {
+public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
+
+    override val pluginClass: KClass<out BasePlugin>
+        get() = KotlinMultiplatformAndroidPlugin::class
 
     override fun configure(project: Project) {
-        if (project.isRoot && project.rootProject.subprojects.isNotEmpty()) {
-            throw GradleException("Android plugins can only be applied to subprojects, not the root project")
-        }
-
         if (!project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
             throw GradleException("Kotlin Multiplatform Plugin must be applied to use Kradle Android Multiplatform Library plugin")
         }
 
-        val configPlugin = project.plugins.apply(AndroidConfigPlugin::class)
+        super.configure(project)
+    }
 
-        project.apply(plugin = Constants.KMP_LIBRARY_PLUGIN_ID)
+    override fun configureAndroid(options: AndroidOptions) {
+        super.configureAndroid(options)
 
-        project.configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
-
-        project.extensions.getByType<KotlinMultiplatformExtension>().extensions.configure<KotlinMultiplatformAndroidLibraryTarget> {
-            compilerOptions {
-                jvmTarget.set(kradleExtension.jvmTarget.map { JvmTarget.fromTarget(it.toString()) })
-            }
-        }
-
-        project.androidComponents<KotlinMultiplatformAndroidComponentsExtension> {
-            finalizeDsl {
-                configPlugin.run {
-                    it.configureBaseAndroidOptions(
-                        options = androidOptions
-                    )
-                }
-            }
-        }
+        project.configureMultiplatformAndroidLibrary(options)
     }
 
     @Suppress("UnstableApiUsage")
-    private fun KotlinMultiplatformAndroidLibraryExtension.configureBaseAndroidOptions(options: AndroidOptions) {
-        options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-        setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
-        minSdk = options.minSdk.get()
-        withDeviceTest {
-            instrumentationRunner = Constants.ANDROIDX_TEST_RUNNER
-            execution = "HOST"
-        }
-        lint {
-            targetSdk = options.targetSdk.get()
-        }
-        optimization {
-            consumerKeepRules.publish = true
-            consumerKeepRules.files.add(project.file("consumer-rules.pro"))
+    public fun Project.configureMultiplatformAndroidLibrary(options: AndroidOptions) {
+        androidComponents<KotlinMultiplatformAndroidComponentsExtension> {
+            finalizeDsl { extension ->
+                extension.apply {
+                    options.buildToolsVersion.ifPresent { buildToolsVersion = it }
+                    setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
+                    minSdk = options.minSdk.get()
+                    withDeviceTest {
+                        instrumentationRunner = Constants.ANDROIDX_TEST_RUNNER
+                        execution = "HOST"
+                    }
+                    withHostTest {
+                        targetSdk {
+                            version = release(options.targetSdk.get())
+                        }
+                    }
+                    lint {
+                        targetSdk {
+                            version = release(options.targetSdk.get())
+                        }
+                    }
+                    optimization {
+                        consumerKeepRules.publish = true
+                        project.layout.projectDirectory
+                            .file("consumer-rules.pro")
+                            .ifExists { consumerKeepRules.files.add(it) }
+                    }
+                }
+            }
         }
     }
 
@@ -78,6 +73,15 @@ public class AndroidKmpLibraryPlugin : KradlePlugin() {
             compileSdk = intVersion
         } else {
             compileSdkPreview = version
+        }
+    }
+
+    public fun Project.filterTestTaskDependencies(options: AndroidOptions) {
+        afterEvaluate {
+            tasks.named("allTests") {
+                val testTasksFilter = options.testTasksFilter.get()
+                setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
+            }
         }
     }
 }

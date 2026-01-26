@@ -8,8 +8,6 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByName
 
-public typealias AndroidCommonExtension = CommonExtension<*, *, *, *, *, *>
-
 /**
  * Configures the `android` extension of type T
  *
@@ -24,7 +22,7 @@ public typealias AndroidCommonExtension = CommonExtension<*, *, *, *, *, *>
  * }
  * ```
  */
-public fun <T : AndroidCommonExtension> Project.android(configure: T.() -> Unit) {
+public fun <T : CommonExtension> Project.android(configure: T.() -> Unit) {
     extensions.configure("android", configure)
 }
 
@@ -32,8 +30,8 @@ public fun <T : AndroidCommonExtension> Project.android(configure: T.() -> Unit)
  * Configures the generic `androidComponents` extension
  */
 @JvmName("androidComponentsCommon")
-public fun Project.androidComponents(configure: AndroidComponentsExtension<AndroidCommonExtension, *, *>.() -> Unit) {
-    androidComponents<AndroidComponentsExtension<AndroidCommonExtension, *, *>>(configure)
+public fun Project.androidComponents(configure: AndroidComponentsExtension<CommonExtension, *, *>.() -> Unit) {
+    androidComponents<AndroidComponentsExtension<CommonExtension, *, *>>(configure)
 }
 
 /**

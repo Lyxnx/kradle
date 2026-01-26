@@ -2,6 +2,7 @@
 
 package io.github.lyxnx.kradle.android.dsl
 
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.ManagedVirtualDevice
 import org.gradle.kotlin.dsl.get
 
@@ -12,11 +13,11 @@ import org.gradle.kotlin.dsl.get
  * @param configGroups an optional list of device groups to add. For example, there could be a group of devices for CI,
  * which only includes the devices from [configs] that run on a CI server
  */
-public fun AndroidCommonExtension.configureManagedDevices(
+public fun CommonExtension.configureManagedDevices(
     configs: List<ManagedDeviceConfig>,
     configGroups: List<ManagedDeviceGroupConfig> = emptyList()
 ) {
-    testOptions {
+    testOptions.apply {
         managedDevices {
             allDevices.apply {
                 configs.forEach { config ->

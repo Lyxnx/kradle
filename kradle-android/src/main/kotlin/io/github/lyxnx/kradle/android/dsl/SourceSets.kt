@@ -9,6 +9,7 @@ import com.android.SdkConstants.FD_RENDERSCRIPT
 import com.android.SdkConstants.FD_RES
 import com.android.SdkConstants.FN_ANDROID_MANIFEST_XML
 import com.android.build.api.dsl.AndroidSourceSet
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.kotlin.dsl.get
 import java.util.Locale
 
@@ -22,7 +23,7 @@ import java.util.Locale
  * }
  * ```
  */
-public fun AndroidCommonExtension.addSharedSourceSetRoot(
+public fun CommonExtension.addSharedSourceSetRoot(
     variant1: String,
     variant2: String,
     name: String = "$variant1${variant2.capitalized()}}"
@@ -36,17 +37,18 @@ public fun AndroidCommonExtension.addSharedSourceSetRoot(
 }
 
 private fun AndroidSourceSet.addRoot(path: String) {
-    java.srcDirs("$path/$FD_JAVA")
-    kotlin.srcDirs("$path/$FD_JAVA", "$path/kotlin")
-    resources.srcDir("$path/$FD_JAVA_RES")
-    res.srcDir("$path/$FD_RES")
-    assets.srcDir("$path/$FD_ASSETS")
+    java.directories += "$path/$FD_JAVA"
+    kotlin.directories += "$path/$FD_JAVA"
+    kotlin.directories += "$path/kotlin"
+    resources.directories += "$path/$FD_JAVA_RES"
+    res.directories += "$path/$FD_RES"
+    assets.directories += "$path/$FD_ASSETS"
     manifest.srcFile("$path/$FN_ANDROID_MANIFEST_XML")
-    aidl.srcDir("$path/$FD_AIDL")
-    renderscript.srcDir("$path/$FD_RENDERSCRIPT")
-    jniLibs.srcDir("$path/jniLibs")
-    shaders.srcDir("$path/shaders")
-    mlModels.srcDir("$path/$FD_ML_MODELS")
+    aidl.directories += "$path/$FD_AIDL"
+    renderscript.directories += "$path/$FD_RENDERSCRIPT"
+    jniLibs.directories += "$path/jniLibs"
+    shaders.directories += "$path/shaders"
+    mlModels.directories += "$path/$FD_ML_MODELS"
 }
 
 private fun String.capitalized(): String {
