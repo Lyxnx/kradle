@@ -7,6 +7,7 @@ public final class io/github/lyxnx/kradle/dsl/PluginRegistryKt {
 }
 
 public final class io/github/lyxnx/kradle/dsl/ProjectKt {
+	public static final fun extraPropertyOrNull (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/Object;
 	public static final fun findBooleanProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/Boolean;
 	public static final fun findIntProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/Integer;
 	public static final fun findStringProperty (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/String;
