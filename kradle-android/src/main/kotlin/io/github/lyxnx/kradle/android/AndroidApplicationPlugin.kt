@@ -11,15 +11,15 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
-    override fun Project.configure() {
-        if (plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
+    override fun configure(project: Project) {
+        if (project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
             throw GradleException("Kotlin Multiplatform plugin is not supported with the Android Application plugin. Only library projects are supported.")
         }
 
-        applyBasePlugin(Constants.APPLICATION_PLUGIN_ID)
+        project.applyBasePlugin(Constants.APPLICATION_PLUGIN_ID)
 
-        configureApp()
-        androidComponents<ApplicationAndroidComponentsExtension> {
+        project.configureApp()
+        project.androidComponents<ApplicationAndroidComponentsExtension> {
             finalizeDsl {
                 it.finalizeApp(configPlugin.androidOptions)
             }

@@ -22,28 +22,28 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 // TODO: refactor this along with the other android plugins
 public class AndroidKmpLibraryPlugin : KradlePlugin() {
 
-    override fun Project.configure() {
-        if (isRoot && rootProject.subprojects.isNotEmpty()) {
+    override fun configure(project: Project) {
+        if (project.isRoot && project.rootProject.subprojects.isNotEmpty()) {
             throw GradleException("Android plugins can only be applied to subprojects, not the root project")
         }
 
-        if (!plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
+        if (!project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
             throw GradleException("Kotlin Multiplatform Plugin must be applied to use Kradle Android Multiplatform Library plugin")
         }
 
-        val configPlugin = plugins.apply(AndroidConfigPlugin::class)
+        val configPlugin = project.plugins.apply(AndroidConfigPlugin::class)
 
-        apply(plugin = Constants.KMP_LIBRARY_PLUGIN_ID)
+        project.apply(plugin = Constants.KMP_LIBRARY_PLUGIN_ID)
 
-        configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
+        project.configureKotlin(kradleExtension.jvmTarget, kradleExtension.kotlinCompilerArgs)
 
-        extensions.getByType<KotlinMultiplatformExtension>().extensions.configure<KotlinMultiplatformAndroidLibraryTarget> {
+        project.extensions.getByType<KotlinMultiplatformExtension>().extensions.configure<KotlinMultiplatformAndroidLibraryTarget> {
             compilerOptions {
                 jvmTarget.set(kradleExtension.jvmTarget.map { JvmTarget.fromTarget(it.toString()) })
             }
         }
 
-        androidComponents<KotlinMultiplatformAndroidComponentsExtension> {
+        project.androidComponents<KotlinMultiplatformAndroidComponentsExtension> {
             finalizeDsl {
                 configPlugin.run {
                     it.configureBaseAndroidOptions(

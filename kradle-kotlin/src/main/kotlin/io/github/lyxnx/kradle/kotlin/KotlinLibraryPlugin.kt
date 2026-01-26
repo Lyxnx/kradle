@@ -12,17 +12,17 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 
 public class KotlinLibraryPlugin : KradlePlugin() {
 
-    override fun Project.configure() {
-        val configPlugin = plugins.apply(KotlinConfigPlugin::class)
+    override fun configure(project: Project) {
+        val configPlugin = project.plugins.apply(KotlinConfigPlugin::class)
 
         // If KMP was added by user, don't add the standard version - configure kotlin around their settings
-        if (!plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
-            plugins.apply(KotlinPluginWrapper::class)
+        if (!project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
+            project.plugins.apply(KotlinPluginWrapper::class)
         }
 
         val jvmTarget = kradleExtension.jvmTarget
-        configureKotlin(jvmTarget, kradleExtension.kotlinCompilerArgs)
-        configureKotlinTest(configPlugin.testOptions)
-        configureJava(jvmTarget)
+        project.configureKotlin(jvmTarget, kradleExtension.kotlinCompilerArgs)
+        project.configureKotlinTest(configPlugin.testOptions)
+        project.configureJava(jvmTarget)
     }
 }

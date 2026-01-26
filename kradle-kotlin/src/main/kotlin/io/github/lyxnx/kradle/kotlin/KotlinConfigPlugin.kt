@@ -13,7 +13,7 @@ public open class KotlinConfigPlugin @Inject constructor(
     public lateinit var testOptions: KotlinTestOptions
         private set
 
-    override fun Project.configure() {
+    override fun configure(project: Project) {
         check(pluginRegistry.hasPlugin(Constants.KOTLIN_PLUGIN_ID)) {
             """
             Kotlin gradle plugin cannot be found. Make sure it is added as a build dependency to the project:

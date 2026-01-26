@@ -15,7 +15,7 @@ public open class AndroidConfigPlugin @Inject constructor(
     public lateinit var androidOptions: AndroidOptions
         private set
 
-    override fun Project.configure() {
+    override fun configure(project: Project) {
         check(
             pluginRegistry.hasPlugin(Constants.APPLICATION_PLUGIN_ID)
                 || pluginRegistry.hasPlugin(Constants.LIBRARY_PLUGIN_ID)
@@ -36,7 +36,7 @@ public open class AndroidConfigPlugin @Inject constructor(
             """.trimIndent()
         }
 
-        val kotlinConfig = plugins.apply(KotlinConfigPlugin::class)
+        val kotlinConfig = project.plugins.apply(KotlinConfigPlugin::class)
         androidOptions = createExtension(AndroidOptions.NAME)
         androidOptions.setTestDefaults(kotlinConfig.testOptions)
     }

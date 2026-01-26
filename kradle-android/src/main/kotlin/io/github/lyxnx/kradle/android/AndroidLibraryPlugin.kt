@@ -9,14 +9,14 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 public class AndroidLibraryPlugin : BaseAndroidPlugin() {
 
-    override fun Project.configure() {
-        if (plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
+    override fun configure(project: Project) {
+        if (project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
             throw GradleException("Kradle Android Library plugin no longer supports Kotlin Multiplatform. Use the Kradle Android Multiplatform Library plugin instead")
         }
 
-        applyBasePlugin(Constants.LIBRARY_PLUGIN_ID)
+        project.applyBasePlugin(Constants.LIBRARY_PLUGIN_ID)
 
-        configureAndroidLibrary(configPlugin.androidOptions)
+        project.configureAndroidLibrary(configPlugin.androidOptions)
     }
 }
 

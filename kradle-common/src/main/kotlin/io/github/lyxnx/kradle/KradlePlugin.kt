@@ -26,16 +26,16 @@ public abstract class KradlePlugin : Plugin<Project> {
     internal val kradleExtensions: Sequence<KradleExtension>
         get() = project.parents.mapNotNull { it.extensions.kradle }
 
-    final override fun apply(target: Project) {
-        project = target
+    final override fun apply(project: Project) {
+        this.project = project
         kradleExtension = project.extensions.obtainKradleExtension()
-        target.configure()
+        configure(project)
     }
 
     /**
      * Performs plugin configuration
      */
-    protected abstract fun Project.configure()
+    protected abstract fun configure(project: Project)
 
     /**
      * Create an extension with [name] in the Kradle namespace and returns it
@@ -58,9 +58,7 @@ public abstract class KradlePlugin : Plugin<Project> {
         name: String,
         publicType: KClass<in T>? = null
     ): T {
-        val defaults = kradleExtensions
-            .mapNotNull { it.extensions.findByName<T>(name) }
-            .firstOrNull()
+        val defaults = kradleExtensions.firstNotNullOfOrNull { it.extensions.findByName<T>(name) }
         return kradleExtension.extensions.createWithDefaults(name, defaults, publicType)
     }
 
