@@ -24,10 +24,14 @@ public final class io/github/lyxnx/kradle/kotlin/KotlinTestOptions$Companion {
 }
 
 public final class io/github/lyxnx/kradle/kotlin/dsl/KotlinKt {
-	public static final fun applyKotlinOptions (Lorg/jetbrains/kotlin/gradle/dsl/KotlinJvmCompilerOptions;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
-	public static final fun configureJava (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;)V
+	public static final fun configureJava (Lorg/gradle/api/Project;)V
 	public static final fun configureKotlin (Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V
 	public static final fun configureKotlinTest (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;)V
 	public static final fun setTestOptions (Lorg/gradle/api/tasks/testing/Test;Lio/github/lyxnx/kradle/kotlin/KotlinTestOptions;)V
+}
+
+public final class io/github/lyxnx/kradle/kotlin/dsl/KotlinKt$inlined$sam$i$org_gradle_api_Action$0 : org/gradle/api/Action {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final synthetic fun execute (Ljava/lang/Object;)V
 }
 

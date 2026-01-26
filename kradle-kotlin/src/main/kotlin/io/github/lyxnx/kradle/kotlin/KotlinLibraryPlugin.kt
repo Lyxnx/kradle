@@ -23,6 +23,6 @@ public class KotlinLibraryPlugin : KradlePlugin() {
         val jvmTarget = kradleExtension.jvmTarget
         project.configureKotlin(jvmTarget, kradleExtension.kotlinCompilerArgs)
         project.configureKotlinTest(configPlugin.testOptions)
-        project.configureJava(jvmTarget)
+        project.configureJava()
     }
 }
