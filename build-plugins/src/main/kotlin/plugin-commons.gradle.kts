@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.DeploymentValidation
+
 plugins {
     id("kotlin-commons")
     id("com.vanniktech.maven.publish")
@@ -8,7 +10,7 @@ version = providers.gradleProperty("kradle.version").get()
 
 mavenPublishing {
     coordinates(project.group.toString(), project.name, project.version.toString())
-    publishToMavenCentral(true)
+    publishToMavenCentral(automaticRelease = true, validateDeployment = DeploymentValidation.VALIDATED)
 
     if (!version.toString().endsWith("SNAPSHOT")) {
         signAllPublications()
