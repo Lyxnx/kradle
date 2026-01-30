@@ -57,10 +57,12 @@ public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
                         }
                     }
                     optimization {
-                        consumerKeepRules.publish = true
                         project.layout.projectDirectory
                             .file("consumer-rules.pro")
-                            .ifExists { consumerKeepRules.files.add(it) }
+                            .ifExists {
+                                consumerKeepRules.publish = true
+                                consumerKeepRules.files.add(it)
+                            }
                     }
                 }
             }
