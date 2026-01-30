@@ -42,15 +42,19 @@ public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
                     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
                     setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
                     minSdk = options.minSdk.get()
-                    withDeviceTest {
-                        instrumentationRunner = Constants.ANDROIDX_TEST_RUNNER
-                        execution = "HOST"
-                    }
-                    withHostTest {
-                        targetSdk {
-                            version = release(options.targetSdk.get())
-                        }
-                    }
+
+                    // Don't configure tests for multiple reasons:
+                    // 1. Values set here are basically the same as the default anyway
+                    // 2. If consumer does the same thing, it will cause an error due to it already being configured
+//                    withDeviceTest {
+//                        instrumentationRunner = Constants.ANDROIDX_TEST_RUNNER
+//                        execution = "HOST"
+//                    }
+//                    withHostTest {
+//                        targetSdk {
+//                            version = release(options.targetSdk.get())
+//                        }
+//                    }
                     lint {
                         targetSdk {
                             version = release(options.targetSdk.get())
