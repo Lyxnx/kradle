@@ -33,7 +33,7 @@ public fun Project.configureKotlin(
             compilerOptions {
                 freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
 
-                if (this is KotlinMultiplatformExtension) {
+                if (this@configure is KotlinMultiplatformExtension) {
                     freeCompilerArgs.add("-Xexpect-actual-classes")
                 }
 
