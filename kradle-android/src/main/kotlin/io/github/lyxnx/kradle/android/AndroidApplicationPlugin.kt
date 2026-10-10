@@ -23,18 +23,17 @@ public class AndroidApplicationPlugin : SingleTargetAndroidPlugin() {
 
     public fun Project.configureAndroidApplication(options: AndroidOptions) {
         android<ApplicationExtension> { // These don't read from anything, so safe to configure these here
-            defaultConfig {
-                proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
-                project.layout.projectDirectory
-                    .file("proguard-rules.pro")
-                    .ifExists { proguardFile(it) }
-            }
-
             buildTypes {
                 release {
                     isDebuggable = false
                     isMinifyEnabled = true
                     isShrinkResources = true
+
+                    // https://developer.android.com/topic/performance/app-optimization/keep-rules-overview#optimization-dsl
+                    // AGP 9.3+ includes the proguard-android-optimize file by default as well as those in src/<variant>/keepRules
+                    optimization {
+                        enable = true
+                    }
                 }
             }
         }
