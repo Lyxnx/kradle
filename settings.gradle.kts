@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-import io.github.lyxnx.gradle.catalogs.shared
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -14,7 +12,7 @@ pluginManagement {
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-    id("io.github.lyxnx.gradle.catalogs") version "2026.01.25"
+    id("io.github.lyxnx.gradle.catalogs") version "2026.10.09"
 }
 
 dependencyResolutionManagement {
@@ -23,12 +21,6 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         gradlePluginPortal()
-    }
-    versionCatalogs {
-        shared {
-            // Not in latest catalog yet
-            version("android-gradle-plugin", "9.0.0")
-        }
     }
 }
 
