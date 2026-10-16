@@ -3,7 +3,6 @@ package io.github.lyxnx.kradle.android
 import com.android.build.api.dsl.CommonExtension
 import io.github.lyxnx.kradle.android.dsl.androidComponents
 import io.github.lyxnx.kradle.android.dsl.test
-import io.github.lyxnx.kradle.dsl.getOrElse
 import io.github.lyxnx.kradle.dsl.ifPresent
 import io.github.lyxnx.kradle.kotlin.dsl.setTestOptions
 import org.gradle.api.GradleException
@@ -37,7 +36,18 @@ public abstract class SingleTargetAndroidPlugin : BaseAndroidPlugin() {
     public fun CommonExtension.configureBaseAndroidOptions(options: AndroidOptions) {
         options.ndkVersion.ifPresent { ndkVersion = it }
         options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-        setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
+
+        when {
+            options.compileSdk.isPresent -> setCompileSdk(options.compileSdk.get())
+
+            options.configureTargetSdk.isPresent -> compileSdk {
+                options.configureTargetSdk.get().invoke(this)
+            }
+
+            else ->
+                // Will fail if not present
+                setCompileSdk(options.targetSdk.get().toString())
+        }
 
         buildFeatures.apply {
             shaders = false

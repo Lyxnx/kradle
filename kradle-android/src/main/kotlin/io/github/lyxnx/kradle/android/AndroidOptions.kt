@@ -1,5 +1,6 @@
 package io.github.lyxnx.kradle.android
 
+import com.android.build.api.dsl.CompileSdkSpec
 import io.github.lyxnx.kradle.dsl.ExtensionDefaults
 import io.github.lyxnx.kradle.kotlin.KotlinTestOptions
 import org.gradle.api.Project
@@ -19,10 +20,21 @@ public abstract class AndroidOptions(project: Project) : ExtensionAware, Extensi
      */
     public val minSdk: Property<Int> = project.objects.property()
 
+    // TODO fix this shit
+    internal val configureTargetSdk: Property<CompileSdkSpec.() -> Unit> = project.objects.property()
+
+    // TODO: Differentiate between target and compile SDKs properly in future
     /**
      * Configures the target sdk for all Android modules
      */
     public val targetSdk: Property<Int> = project.objects.property()
+
+    /**
+     * Configures the target sdk for all Android modules
+     */
+    public fun targetSdk(block: CompileSdkSpec.() -> Unit) {
+        configureTargetSdk.set(block)
+    }
 
     /**
      * Configures the compile sdk for all Android modules
@@ -87,6 +99,7 @@ public abstract class AndroidOptions(project: Project) : ExtensionAware, Extensi
     override fun setDefaults(defaults: AndroidOptions) {
         minSdk.convention(defaults.minSdk)
         targetSdk.convention(defaults.targetSdk)
+        configureTargetSdk.convention(defaults.configureTargetSdk)
         compileSdk.convention(defaults.compileSdk)
         buildToolsVersion.convention(defaults.buildToolsVersion)
         ndkVersion.convention(defaults.ndkVersion)

@@ -40,7 +40,18 @@ public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
             finalizeDsl { extension ->
                 extension.apply {
                     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-                    setCompileSdk(options.compileSdk.getOrElse { options.targetSdk.get().toString() })
+                    when {
+                        options.compileSdk.isPresent -> setCompileSdk(options.compileSdk.get())
+
+                        options.configureTargetSdk.isPresent -> compileSdk {
+                            options.configureTargetSdk.get().invoke(this)
+                        }
+
+                        else ->
+                            // Will fail if not present
+                            setCompileSdk(options.targetSdk.get().toString())
+                    }
+
                     minSdk = options.minSdk.get()
 
                     // Don't configure tests for multiple reasons:

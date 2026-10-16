@@ -34,6 +34,7 @@ public abstract class io/github/lyxnx/kradle/android/AndroidOptions : io/github/
 	public final fun getTestTasksFilter ()Lorg/gradle/api/provider/Property;
 	public fun setDefaults (Lio/github/lyxnx/kradle/android/AndroidOptions;)V
 	public synthetic fun setDefaults (Ljava/lang/Object;)V
+	public final fun targetSdk (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class io/github/lyxnx/kradle/android/AndroidOptions$Companion {
