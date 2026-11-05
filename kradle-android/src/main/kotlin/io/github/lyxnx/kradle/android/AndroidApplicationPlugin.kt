@@ -2,26 +2,19 @@ package io.github.lyxnx.kradle.android
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.BasePlugin
 import io.github.lyxnx.kradle.android.dsl.android
 import io.github.lyxnx.kradle.android.dsl.androidComponents
-import io.github.lyxnx.kradle.android.internal.ifExists
 import org.gradle.api.Project
-import kotlin.reflect.KClass
 
-public class AndroidApplicationPlugin : SingleTargetAndroidPlugin() {
+public class AndroidApplicationPlugin : SingleTargetAndroidPlugin("com.android.application") {
 
-    override val pluginClass: KClass<out BasePlugin>
-        get() = AppPlugin::class
+    override fun configureAndroid(configPlugin: AndroidConfigPlugin) {
+        super.configureAndroid(configPlugin)
 
-    override fun configureAndroid(options: AndroidOptions) {
-        super.configureAndroid(options)
-
-        project.configureAndroidApplication(options)
+        project.configureAndroidApplication(configPlugin.androidExtension)
     }
 
-    public fun Project.configureAndroidApplication(options: AndroidOptions) {
+    private fun Project.configureAndroidApplication(options: AndroidExtensionImpl) {
         android<ApplicationExtension> { // These don't read from anything, so safe to configure these here
             buildTypes {
                 release {
@@ -41,7 +34,13 @@ public class AndroidApplicationPlugin : SingleTargetAndroidPlugin() {
         androidComponents<ApplicationAndroidComponentsExtension> {
             finalizeDsl {
                 it.defaultConfig {
-                    targetSdk = options.targetSdk.get()
+                    targetSdk {
+                        if (options.configureTargetSdk.isPresent) {
+                            options.configureTargetSdk.get().invoke(this)
+                        } else {
+                            version = release(options.targetSdk.get())
+                        }
+                    }
                 }
             }
         }

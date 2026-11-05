@@ -2,8 +2,8 @@ package io.github.lyxnx.kradle.android.dsl
 
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
-import io.github.lyxnx.kradle.android.AndroidOptions
-import io.github.lyxnx.kradle.kotlin.KotlinTestOptions
+import io.github.lyxnx.kradle.android.AndroidExtension
+import io.github.lyxnx.kradle.kotlin.KotlinTestExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByName
@@ -41,5 +41,5 @@ public fun <T : AndroidComponentsExtension<*, *, *>> Project.androidComponents(c
     extensions.configure("androidComponents", configure)
 }
 
-internal val AndroidOptions.test: KotlinTestOptions
-    get() = (this as ExtensionAware).extensions.getByName<KotlinTestOptions>(KotlinTestOptions.NAME)
+internal val AndroidExtension.test: KotlinTestExtension
+    get() = (this as ExtensionAware).extensions.getByName<KotlinTestExtension>(KotlinTestExtension.NAME)

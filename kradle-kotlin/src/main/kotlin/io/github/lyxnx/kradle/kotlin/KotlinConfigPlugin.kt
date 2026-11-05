@@ -1,6 +1,7 @@
 package io.github.lyxnx.kradle.kotlin
 
 import io.github.lyxnx.kradle.KradlePlugin
+import io.github.lyxnx.kradle.dsl.InternalKradleApi
 import io.github.lyxnx.kradle.dsl.hasPlugin
 import org.gradle.api.Project
 import org.gradle.api.internal.plugins.PluginRegistry
@@ -10,9 +11,11 @@ public open class KotlinConfigPlugin @Inject constructor(
     private val pluginRegistry: PluginRegistry,
 ) : KradlePlugin() {
 
-    public lateinit var testOptions: KotlinTestOptions
+    @InternalKradleApi
+    public lateinit var testOptions: KotlinTestExtensionImpl
         private set
 
+    @InternalKradleApi
     override fun configure(project: Project) {
         check(pluginRegistry.hasPlugin(Constants.KOTLIN_PLUGIN_ID)) {
             """
@@ -28,7 +31,7 @@ public open class KotlinConfigPlugin @Inject constructor(
             """.trimIndent()
         }
 
-        testOptions = createExtension(KotlinTestOptions.NAME)
+        testOptions = createExtension(KotlinTestExtension.NAME, publicType = KotlinTestExtension::class)
     }
 
 }

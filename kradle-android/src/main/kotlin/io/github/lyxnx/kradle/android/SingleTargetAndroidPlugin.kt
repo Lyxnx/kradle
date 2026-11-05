@@ -3,6 +3,8 @@ package io.github.lyxnx.kradle.android
 import com.android.build.api.dsl.CommonExtension
 import io.github.lyxnx.kradle.android.dsl.androidComponents
 import io.github.lyxnx.kradle.android.dsl.test
+import io.github.lyxnx.kradle.dsl.InternalKradleApi
+import io.github.lyxnx.kradle.dsl.getOrElse
 import io.github.lyxnx.kradle.dsl.ifPresent
 import io.github.lyxnx.kradle.kotlin.dsl.setTestOptions
 import org.gradle.api.GradleException
@@ -11,8 +13,9 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.hasPlugin
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
-public abstract class SingleTargetAndroidPlugin : BaseAndroidPlugin() {
+public abstract class SingleTargetAndroidPlugin(pluginId: String) : BaseAndroidPlugin(pluginId) {
 
+    @InternalKradleApi
     override fun configure(project: Project) {
         if (project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
             throw GradleException("Do not use the Kotlin Multiplatform plugin when adding a single target Kradle plugin")
@@ -21,32 +24,33 @@ public abstract class SingleTargetAndroidPlugin : BaseAndroidPlugin() {
         super.configure(project)
     }
 
-    override fun configureAndroid(options: AndroidOptions) {
-        super.configureAndroid(options)
+    override fun configureAndroid(configPlugin: AndroidConfigPlugin) {
+        super.configureAndroid(configPlugin)
 
-        project.filterTestTaskDependencies(options)
+        project.filterTestTaskDependencies(configPlugin.androidExtension)
 
         project.androidComponents {
             finalizeDsl { extension ->
-                extension.configureBaseAndroidOptions(options)
+                extension.configureBaseAndroidOptions(configPlugin.androidExtension)
             }
         }
     }
 
-    public fun CommonExtension.configureBaseAndroidOptions(options: AndroidOptions) {
+    @OptIn(InternalKradleApi::class)
+    private fun CommonExtension.configureBaseAndroidOptions(options: AndroidExtensionImpl) {
         options.ndkVersion.ifPresent { ndkVersion = it }
         options.buildToolsVersion.ifPresent { buildToolsVersion = it }
 
-        when {
-            options.compileSdk.isPresent -> setCompileSdk(options.compileSdk.get())
-
-            options.configureTargetSdk.isPresent -> compileSdk {
-                options.configureTargetSdk.get().invoke(this)
+        compileSdk {
+            if (options.configureCompileSdk.isPresent) {
+                options.configureCompileSdk.get().invoke(this)
+            } else {
+                version = release(options.compileSdk.getOrElse {
+                    // Fallback to targetSdk as per documentation
+                    // Will fail if not present
+                    options.targetSdk.get()
+                })
             }
-
-            else ->
-                // Will fail if not present
-                setCompileSdk(options.targetSdk.get().toString())
         }
 
         buildFeatures.apply {
@@ -64,21 +68,11 @@ public abstract class SingleTargetAndroidPlugin : BaseAndroidPlugin() {
         }
     }
 
-    private fun CommonExtension.setCompileSdk(version: String) {
-        val intVersion = version.toIntOrNull()
-        if (intVersion != null) {
-            compileSdk = intVersion
-        } else {
-            compileSdkPreview = version
-        }
-    }
-
-    public fun Project.filterTestTaskDependencies(options: AndroidOptions) {
+    private fun Project.filterTestTaskDependencies(options: AndroidExtension) {
         afterEvaluate {
-            tasks.named("test") {
-                val testTasksFilter = options.testTasksFilter.get()
-                setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
-            }
+            val task = tasks.findByName("test") ?: return@afterEvaluate
+            val testTasksFilter = options.testTasksFilter.get()
+            task.setDependsOn(task.dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
         }
     }
 }

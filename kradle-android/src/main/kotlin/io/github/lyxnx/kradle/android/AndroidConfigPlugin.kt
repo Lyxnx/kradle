@@ -1,6 +1,7 @@
 package io.github.lyxnx.kradle.android
 
 import io.github.lyxnx.kradle.KradlePlugin
+import io.github.lyxnx.kradle.dsl.InternalKradleApi
 import io.github.lyxnx.kradle.dsl.hasPlugin
 import io.github.lyxnx.kradle.kotlin.KotlinConfigPlugin
 import org.gradle.api.Project
@@ -12,9 +13,10 @@ public open class AndroidConfigPlugin @Inject constructor(
     private val pluginRegistry: PluginRegistry
 ) : KradlePlugin() {
 
-    public lateinit var androidOptions: AndroidOptions
+    internal lateinit var androidExtension: AndroidExtensionImpl
         private set
 
+    @InternalKradleApi
     override fun configure(project: Project) {
         check(
             pluginRegistry.hasPlugin(Constants.APPLICATION_PLUGIN_ID)
@@ -37,7 +39,7 @@ public open class AndroidConfigPlugin @Inject constructor(
         }
 
         val kotlinConfig = project.plugins.apply(KotlinConfigPlugin::class)
-        androidOptions = createExtension(AndroidOptions.NAME)
-        androidOptions.setTestDefaults(kotlinConfig.testOptions)
+        androidExtension = createExtension(AndroidExtension.NAME, publicType = AndroidExtension::class)
+        androidExtension.setTestDefaults(kotlinConfig.testOptions)
     }
 }

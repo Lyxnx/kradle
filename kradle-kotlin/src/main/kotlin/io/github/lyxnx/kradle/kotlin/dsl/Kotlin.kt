@@ -1,6 +1,9 @@
 package io.github.lyxnx.kradle.kotlin.dsl
 
-import io.github.lyxnx.kradle.kotlin.KotlinTestOptions
+import io.github.lyxnx.kradle.dsl.InternalKradleApi
+import io.github.lyxnx.kradle.kotlin.KotlinTestExtension
+import io.github.lyxnx.kradle.kotlin.KotlinTestExtensionImpl
+import io.github.lyxnx.kradle.kotlin.KotlinTestFramework
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -51,23 +54,27 @@ public fun Project.configureJava() {
     }
 }
 
-public fun Project.configureKotlinTest(options: KotlinTestOptions) {
-    tasks.withType<Test>().configureEach {
-        setTestOptions(options)
-    }
-}
+@InternalKradleApi
+public fun Test.setTestOptions(options: KotlinTestExtension) {
+    val configure = (options as KotlinTestExtensionImpl).configuration.get()
 
-public fun Test.setTestOptions(options: KotlinTestOptions) {
-    val configure = options.configuration.get()
-    if (options.useJunitPlatform.get()) {
-        useJUnitPlatform(configure)
-        testLogging {
-            exceptionFormat = TestExceptionFormat.FULL
-            events(STARTED, PASSED, SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
-            showStandardStreams = true
-            showStackTraces = true
+    when (options.testFramework.get()) {
+        KotlinTestFramework.JUNIT_PLATFORM -> {
+            useJUnitPlatform(configure)
+            testLogging {
+                exceptionFormat = TestExceptionFormat.FULL
+                events(STARTED, PASSED, SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
+                showStandardStreams = true
+                showStackTraces = true
+            }
         }
-    } else {
-        useJUnit(configure)
+
+        KotlinTestFramework.JUNIT -> {
+            useJUnit(configure)
+        }
+
+        KotlinTestFramework.TESTNG -> {
+            useTestNG(configure)
+        }
     }
 }

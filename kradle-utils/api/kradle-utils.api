@@ -1,5 +1,12 @@
+public final class io/github/lyxnx/kradle/dsl/ExtensionContainerKt {
+	public static final fun findByName (Lorg/gradle/api/plugins/ExtensionContainer;Ljava/lang/String;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+}
+
 public abstract interface class io/github/lyxnx/kradle/dsl/ExtensionDefaults {
 	public abstract fun setDefaults (Ljava/lang/Object;)V
+}
+
+public abstract interface annotation class io/github/lyxnx/kradle/dsl/InternalKradleApi : java/lang/annotation/Annotation {
 }
 
 public final class io/github/lyxnx/kradle/dsl/PluginRegistryKt {

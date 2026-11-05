@@ -1,25 +1,19 @@
 package io.github.lyxnx.kradle.android
 
-import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
 import com.android.build.api.variant.KotlinMultiplatformAndroidComponentsExtension
-import com.android.build.gradle.BasePlugin
-import com.android.build.gradle.api.KotlinMultiplatformAndroidPlugin
 import io.github.lyxnx.kradle.android.dsl.androidComponents
 import io.github.lyxnx.kradle.android.internal.ifExists
+import io.github.lyxnx.kradle.dsl.InternalKradleApi
 import io.github.lyxnx.kradle.dsl.getOrElse
 import io.github.lyxnx.kradle.dsl.ifPresent
 import org.gradle.api.GradleException
 import org.gradle.api.Project
-import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.hasPlugin
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
-import kotlin.reflect.KClass
 
-public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
+public class AndroidKmpLibraryPlugin : BaseAndroidPlugin("com.android.kotlin.multiplatform.library") {
 
-    override val pluginClass: KClass<out BasePlugin>
-        get() = KotlinMultiplatformAndroidPlugin::class
-
+    @InternalKradleApi
     override fun configure(project: Project) {
         if (!project.plugins.hasPlugin(KotlinMultiplatformPluginWrapper::class)) {
             throw GradleException("Kotlin Multiplatform Plugin must be applied to use Kradle Android Multiplatform Library plugin")
@@ -28,28 +22,29 @@ public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
         super.configure(project)
     }
 
-    override fun configureAndroid(options: AndroidOptions) {
-        super.configureAndroid(options)
+    override fun configureAndroid(configPlugin: AndroidConfigPlugin) {
+        super.configureAndroid(configPlugin)
 
-        project.configureMultiplatformAndroidLibrary(options)
+        project.configureMultiplatformAndroidLibrary(configPlugin.androidExtension)
     }
 
     @Suppress("UnstableApiUsage")
-    public fun Project.configureMultiplatformAndroidLibrary(options: AndroidOptions) {
+    private fun Project.configureMultiplatformAndroidLibrary(options: AndroidExtensionImpl) {
         androidComponents<KotlinMultiplatformAndroidComponentsExtension> {
             finalizeDsl { extension ->
                 extension.apply {
                     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-                    when {
-                        options.compileSdk.isPresent -> setCompileSdk(options.compileSdk.get())
 
-                        options.configureTargetSdk.isPresent -> compileSdk {
-                            options.configureTargetSdk.get().invoke(this)
+                    compileSdk {
+                        if (options.configureCompileSdk.isPresent) {
+                            options.configureCompileSdk.get().invoke(this)
+                        } else {
+                            version = release(options.compileSdk.getOrElse {
+                                // Fallback to targetSdk as per documentation
+                                // Will fail if not present
+                                options.targetSdk.get()
+                            })
                         }
-
-                        else ->
-                            // Will fail if not present
-                            setCompileSdk(options.targetSdk.get().toString())
                     }
 
                     minSdk = options.minSdk.get()
@@ -80,24 +75,6 @@ public class AndroidKmpLibraryPlugin : BaseAndroidPlugin() {
                             }
                     }
                 }
-            }
-        }
-    }
-
-    private fun KotlinMultiplatformAndroidLibraryExtension.setCompileSdk(version: String) {
-        val intVersion = version.toIntOrNull()
-        if (intVersion != null) {
-            compileSdk = intVersion
-        } else {
-            compileSdkPreview = version
-        }
-    }
-
-    public fun Project.filterTestTaskDependencies(options: AndroidOptions) {
-        afterEvaluate {
-            tasks.named("allTests") {
-                val testTasksFilter = options.testTasksFilter.get()
-                setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
             }
         }
     }

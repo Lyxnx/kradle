@@ -1,59 +1,46 @@
 public final class io/github/lyxnx/kradle/android/AndroidApplicationPlugin : io/github/lyxnx/kradle/android/SingleTargetAndroidPlugin {
 	public fun <init> ()V
-	public final fun configureAndroidApplication (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
 }
 
 public class io/github/lyxnx/kradle/android/AndroidConfigPlugin : io/github/lyxnx/kradle/KradlePlugin {
 	public fun <init> (Lorg/gradle/api/internal/plugins/PluginRegistry;)V
 	protected fun configure (Lorg/gradle/api/Project;)V
-	public final fun getAndroidOptions ()Lio/github/lyxnx/kradle/android/AndroidOptions;
+}
+
+public abstract interface class io/github/lyxnx/kradle/android/AndroidExtension : org/gradle/api/plugins/ExtensionAware {
+	public static final field Companion Lio/github/lyxnx/kradle/android/AndroidExtension$Companion;
+	public static final field NAME Ljava/lang/String;
+	public abstract fun compileSdk (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun getBuildToolsVersion ()Lorg/gradle/api/provider/Property;
+	public abstract fun getCompileSdk ()Lorg/gradle/api/provider/Property;
+	public abstract fun getMinSdk ()Lorg/gradle/api/provider/Property;
+	public abstract fun getNdkVersion ()Lorg/gradle/api/provider/Property;
+	public abstract fun getTargetSdk ()Lorg/gradle/api/provider/Property;
+	public abstract fun getTestTasksFilter ()Lorg/gradle/api/provider/Property;
+	public abstract fun targetSdk (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/github/lyxnx/kradle/android/AndroidExtension$Companion {
+	public static final field NAME Ljava/lang/String;
 }
 
 public final class io/github/lyxnx/kradle/android/AndroidKmpLibraryPlugin : io/github/lyxnx/kradle/android/BaseAndroidPlugin {
 	public fun <init> ()V
-	public final fun configureMultiplatformAndroidLibrary (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
-	public final fun filterTestTaskDependencies (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
 }
 
 public final class io/github/lyxnx/kradle/android/AndroidLibraryPlugin : io/github/lyxnx/kradle/android/SingleTargetAndroidPlugin {
 	public fun <init> ()V
-	public final fun configureAndroidLibrary (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
-}
-
-public abstract class io/github/lyxnx/kradle/android/AndroidOptions : io/github/lyxnx/kradle/dsl/ExtensionDefaults, org/gradle/api/plugins/ExtensionAware {
-	public static final field Companion Lio/github/lyxnx/kradle/android/AndroidOptions$Companion;
-	public static final field DEFAULT_MIN_SDK I
-	public static final field DEFAULT_TARGET_SDK I
-	public static final field NAME Ljava/lang/String;
-	public fun <init> (Lorg/gradle/api/Project;)V
-	public final fun getBuildToolsVersion ()Lorg/gradle/api/provider/Property;
-	public final fun getCompileSdk ()Lorg/gradle/api/provider/Property;
-	public final fun getMinSdk ()Lorg/gradle/api/provider/Property;
-	public final fun getNdkVersion ()Lorg/gradle/api/provider/Property;
-	public final fun getTargetSdk ()Lorg/gradle/api/provider/Property;
-	public final fun getTestTasksFilter ()Lorg/gradle/api/provider/Property;
-	public fun setDefaults (Lio/github/lyxnx/kradle/android/AndroidOptions;)V
-	public synthetic fun setDefaults (Ljava/lang/Object;)V
-	public final fun targetSdk (Lkotlin/jvm/functions/Function1;)V
-}
-
-public final class io/github/lyxnx/kradle/android/AndroidOptions$Companion {
 }
 
 public abstract class io/github/lyxnx/kradle/android/BaseAndroidPlugin : io/github/lyxnx/kradle/KradlePlugin {
-	public fun <init> ()V
 	protected fun configure (Lorg/gradle/api/Project;)V
-	protected fun configureAndroid (Lio/github/lyxnx/kradle/android/AndroidOptions;)V
-	protected final fun getConfigPlugin ()Lio/github/lyxnx/kradle/android/AndroidConfigPlugin;
-	protected abstract fun getPluginClass ()Lkotlin/reflect/KClass;
+	protected fun configureAndroid (Lio/github/lyxnx/kradle/android/AndroidConfigPlugin;)V
 }
 
 public abstract class io/github/lyxnx/kradle/android/SingleTargetAndroidPlugin : io/github/lyxnx/kradle/android/BaseAndroidPlugin {
-	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
 	protected fun configure (Lorg/gradle/api/Project;)V
-	protected fun configureAndroid (Lio/github/lyxnx/kradle/android/AndroidOptions;)V
-	public final fun configureBaseAndroidOptions (Lcom/android/build/api/dsl/CommonExtension;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
-	public final fun filterTestTaskDependencies (Lorg/gradle/api/Project;Lio/github/lyxnx/kradle/android/AndroidOptions;)V
+	protected fun configureAndroid (Lio/github/lyxnx/kradle/android/AndroidConfigPlugin;)V
 }
 
 public final class io/github/lyxnx/kradle/android/dsl/AndroidKt {
